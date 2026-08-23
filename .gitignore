@@ -53,5 +53,11 @@ Thumbs.db
 *.swp
 *.swo
 
-# Project internal scratch
+# Project internal scratch & AI rule files
 TODO.md
+AGENTS.md
+CLAUDE.md
+.cursorrules
+.windsurfrules
+.agent
+mock-data.json
