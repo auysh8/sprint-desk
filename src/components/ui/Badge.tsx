@@ -21,32 +21,32 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default:
-    'bg-[#191c24] text-slate-300 border-white/5',
+    'bg-[#161619] text-neutral-300 border-0',
   primary:
-    'bg-purple-500/15 text-purple-400 border-purple-500/30 shadow-[0_0_12px_rgba(168,85,247,0.15)]',
+    'bg-white/10 text-white border-0',
   success:
-    'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+    'bg-emerald-500/20 text-emerald-300 border-0',
   warning:
-    'bg-amber-500/15 text-amber-400 border-amber-500/30',
+    'bg-amber-500/20 text-amber-300 border-0',
   danger:
-    'bg-rose-500/15 text-rose-400 border-rose-500/30',
+    'bg-rose-500/20 text-rose-300 border-0',
   info:
-    'bg-sky-500/15 text-sky-400 border-sky-500/30',
+    'bg-sky-500/20 text-sky-300 border-0',
   tag:
-    'bg-[#1c1e28] text-slate-300 border-white/5 font-normal tracking-normal',
+    'bg-[#161619] text-neutral-300 border-0 font-normal tracking-normal',
   outline:
-    'bg-transparent text-slate-400 border-slate-700/80',
+    'bg-transparent text-neutral-400 border border-neutral-700',
 };
 
 const dotColors: Record<BadgeVariant, string> = {
-  default: 'bg-slate-400',
-  primary: 'bg-purple-400',
+  default: 'bg-neutral-400',
+  primary: 'bg-white',
   success: 'bg-emerald-400',
   warning: 'bg-amber-400',
   danger: 'bg-rose-400',
   info: 'bg-sky-400',
-  tag: 'bg-slate-400',
-  outline: 'bg-slate-400',
+  tag: 'bg-neutral-400',
+  outline: 'bg-neutral-400',
 };
 
 const sizeStyles: Record<BadgeSize, string> = {

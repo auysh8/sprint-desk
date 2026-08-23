@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Sidebar Container */}
       <aside
         className={cn(
-          'fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#15161f] shadow-xl shadow-black/40 text-slate-400 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 select-none',
+          'fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#0c0c0e] shadow-2xl shadow-black text-neutral-400 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 select-none',
           isMobileOpen ? 'translate-x-0' : '-translate-x-full',
           isCollapsed ? 'lg:w-16' : 'lg:w-56',
           'w-56'
@@ -61,7 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               type="button"
               onClick={onToggleCollapse}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#252736] transition-colors hidden lg:block cursor-pointer"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-[#222226] transition-colors hidden lg:block cursor-pointer"
               aria-label="Collapse sidebar"
               title="Collapse sidebar"
             >
@@ -73,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             type="button"
             onClick={onCloseMobile}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#252736] lg:hidden cursor-pointer"
+            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-[#222226] lg:hidden cursor-pointer"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               type="button"
               onClick={onToggleCollapse}
               aria-label="Expand sidebar"
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-[#252736] transition-colors cursor-pointer"
+              className="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-[#222226] transition-colors cursor-pointer"
               title="Expand sidebar"
             >
               <PanelLeftOpen className="h-4 w-4" />
@@ -96,7 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         )}
 
         {/* Navigation Section */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-2">
+        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-2.5">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -104,27 +104,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
               onClick={onCloseMobile}
               className={({ isActive }) =>
                 cn(
-                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors duration-150',
-                  isCollapsed && 'justify-center px-2',
+                  'relative flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-semibold transition-all duration-150',
+                  isCollapsed && 'justify-center px-2 py-3',
                   isActive
-                    ? 'text-violet-200 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#252736]'
+                    ? 'text-black font-bold'
+                    : 'text-neutral-400 hover:text-white hover:bg-[#222226]'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  {/* Animated Sliding Background Pill */}
+                  {/* Animated High-Contrast Active Pill */}
                   {isActive && (
                     <motion.div
                       layoutId="sidebar-active-pill"
-                      className="absolute inset-0 bg-violet-500/20 rounded-xl shadow-xs"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      className="absolute inset-0 bg-white rounded-2xl shadow-lg shadow-white/10"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
 
-                  <span className="relative z-10">{item.icon}</span>
-                  {!isCollapsed && <span className="relative z-10 truncate">{item.label}</span>}
+                  <span className={cn('relative z-10', isActive ? 'text-slate-950' : 'text-slate-400 group-hover:text-white')}>
+                    {item.icon}
+                  </span>
+                  {!isCollapsed && (
+                    <span className="relative z-10 truncate font-semibold">
+                      {item.label}
+                    </span>
+                  )}
                 </>
               )}
             </NavLink>

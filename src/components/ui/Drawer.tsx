@@ -69,28 +69,28 @@ export const Drawer: React.FC<DrawerProps> = ({
     >
       <div
         className={cn(
-          'relative w-full h-full bg-[#202230] shadow-2xl shadow-black/90 flex flex-col',
+          'relative w-full h-full bg-[#0c0c0e] shadow-2xl shadow-black flex flex-col border-0',
           positionClasses[position],
           sizeClasses[size]
         )}
       >
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 bg-[#171822]/60">
+        <div className="flex items-start justify-between px-6 py-5 bg-[#08080a]">
           <div className="flex-1 pr-4">
             {title && (
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-bold text-white">
                 {title}
               </h3>
             )}
             {description && (
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-neutral-400 mt-1">
                 {description}
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close drawer"
           >
             <X className="h-5 w-5" />

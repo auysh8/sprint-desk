@@ -66,29 +66,29 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         ref={modalRef}
         className={cn(
-          'w-full rounded-2xl bg-[#252736] shadow-2xl shadow-black/90 overflow-hidden flex flex-col',
+          'w-full rounded-3xl bg-[#161619] shadow-2xl shadow-black overflow-hidden flex flex-col border-0',
           'transform transition-all animate-in zoom-in-95 duration-200',
           sizeClasses[size]
         )}
       >
         {/* Header */}
         {(title || description) && (
-          <div className="flex items-start justify-between px-6 pt-5 pb-4 bg-[#1d1e2a]/60">
+          <div className="flex items-start justify-between px-6 pt-5 pb-4 bg-[#0c0c0e]">
             <div>
               {title && (
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-bold text-white">
                   {title}
                 </h3>
               )}
               {description && (
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-neutral-400 mt-1">
                   {description}
                 </p>
               )}
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="h-5 w-5" />
@@ -97,13 +97,13 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* Content */}
-        <div className="px-6 py-5 overflow-y-auto max-h-[75vh] text-slate-200 text-sm">
+        <div className="px-6 py-5 overflow-y-auto max-h-[75vh] text-neutral-200 text-sm">
           {children}
         </div>
 
         {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 px-6 py-4 bg-[#1d1e2a]/80">
+          <div className="flex items-center justify-end gap-3 px-6 py-4 bg-[#0c0c0e]">
             {footer}
           </div>
         )}

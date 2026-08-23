@@ -23,11 +23,11 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
   const activeItem = activeIndex !== null ? data[activeIndex] : null;
 
   return (
-    <div className="bg-[#15161f] p-5 rounded-2xl flex flex-col space-y-4 shadow-sm">
+    <div className="bg-[#0c0c0e] p-6 rounded-3xl flex flex-col space-y-4 shadow-xl shadow-black/80">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-semibold text-white">Status Distribution</h3>
-          <p className="text-xs text-slate-400">Current workflow breakdown</p>
+          <h3 className="text-base font-bold text-white">Status Distribution</h3>
+          <p className="text-xs text-neutral-400 font-medium">Current workflow breakdown</p>
         </div>
       </div>
 
@@ -38,8 +38,8 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
               data={data}
               cx="50%"
               cy="50%"
-              innerRadius={62}
-              outerRadius={88}
+              innerRadius={65}
+              outerRadius={92}
               paddingAngle={4}
               dataKey="count"
               animationDuration={600}
@@ -54,7 +54,7 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
                   <Cell
                     key={`cell-${index}`}
                     fill={entry.color}
-                    stroke={isActive ? '#ffffff' : '#15161f'}
+                    stroke={isActive ? '#ffffff' : '#0c0c0e'}
                     strokeWidth={isActive ? 3 : 2}
                     opacity={!isAnyActive || isActive ? 1 : 0.45}
                     className="transition-all duration-200"
@@ -65,7 +65,7 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Dynamic Center HUD HUD */}
+        {/* Dynamic Center HUD */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <AnimatePresence mode="wait">
             {activeItem ? (
@@ -78,18 +78,18 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
                 className="flex flex-col items-center justify-center text-center max-w-[105px] px-1"
               >
                 <span
-                  className="text-2xl font-bold tracking-tight leading-tight"
+                  className="text-2xl font-black tracking-tight leading-tight"
                   style={{ color: activeItem.color }}
                 >
                   {activeItem.count}
                 </span>
                 <span
-                  className="text-[10px] tracking-wider uppercase font-semibold truncate w-full mt-0.5 leading-tight"
+                  className="text-[10px] tracking-wider uppercase font-bold truncate w-full mt-0.5 leading-tight"
                   style={{ color: activeItem.color }}
                 >
                   {activeItem.status}
                 </span>
-                <span className="text-[10px] font-medium text-slate-400 leading-tight">
+                <span className="text-[10px] font-semibold text-neutral-300 leading-tight">
                   ({Math.round((activeItem.count / (totalTasks || 1)) * 100)}%)
                 </span>
               </motion.div>
@@ -102,8 +102,8 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
                 transition={{ duration: 0.14 }}
                 className="flex flex-col items-center justify-center text-center"
               >
-                <span className="text-2xl font-bold text-slate-100 leading-tight">{totalTasks}</span>
-                <span className="text-[10px] tracking-wider uppercase text-slate-400 font-medium mt-0.5 leading-tight">
+                <span className="text-2xl font-black text-white leading-tight">{totalTasks}</span>
+                <span className="text-[10px] tracking-wider uppercase text-neutral-400 font-bold mt-0.5 leading-tight">
                   Total Tasks
                 </span>
               </motion.div>
@@ -122,17 +122,17 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
               onMouseEnter={() => setActiveIndex(index)}
               onMouseLeave={() => setActiveIndex(null)}
               className={cn(
-                'flex items-center justify-between text-xs px-2.5 py-1.5 rounded-lg transition-all duration-150 cursor-pointer select-none shadow-xs',
+                'flex items-center justify-between text-xs px-3 py-2 rounded-xl transition-all duration-150 cursor-pointer select-none shadow-xs',
                 isActive
-                  ? 'bg-[#252736] shadow-sm'
-                  : 'bg-[#1d1e2a] hover:bg-[#252736]'
+                  ? 'bg-[#222226] shadow-sm text-white'
+                  : 'bg-[#161619] hover:bg-[#222226] text-neutral-300'
               )}
             >
-              <div className="flex items-center gap-1.5 min-w-0">
-                <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
-                <span className="text-slate-300 truncate">{item.status}</span>
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                <span className="truncate font-medium">{item.status}</span>
               </div>
-              <span className="font-semibold text-slate-200 shrink-0 ml-1.5">{item.count}</span>
+              <span className="font-bold text-white shrink-0 ml-1.5">{item.count}</span>
             </div>
           );
         })}

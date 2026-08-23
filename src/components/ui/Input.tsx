@@ -66,9 +66,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
             className={cn(
-              'w-full rounded-xl bg-[#1d1e2a] px-3.5 py-2.5 text-sm text-white placeholder:text-slate-400 transition-all duration-150',
-              'focus:outline-none focus:ring-2 focus:ring-violet-500/60 focus:bg-[#252736]',
-              'disabled:bg-[#15161f] disabled:text-slate-500 disabled:cursor-not-allowed',
+              'w-full rounded-xl bg-[#161619] px-3.5 py-2.5 text-sm text-white placeholder:text-neutral-500 transition-all duration-150',
+              'focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-[#222226]',
+              'disabled:bg-[#0c0c0e] disabled:text-neutral-600 disabled:cursor-not-allowed',
               leftIcon ? 'pl-9' : '',
               isPassword || clearable || rightIcon ? 'pr-10' : '',
               error && 'ring-2 ring-rose-500/70',

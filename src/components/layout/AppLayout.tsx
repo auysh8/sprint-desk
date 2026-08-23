@@ -24,7 +24,7 @@ export const AppLayout: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#121318] text-slate-100 antialiased">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#000000] text-white antialiased">
       {/* Sidebar */}
       <Sidebar
         isMobileOpen={mobileSidebarOpen}
@@ -42,7 +42,7 @@ export const AppLayout: React.FC = () => {
         />
 
         {/* Scrollable Page Body with stable scrollbar gutter */}
-        <main className="flex-1 overflow-y-auto [scrollbar-gutter:stable] p-4 sm:p-6 lg:p-8 bg-[#121318]">
+        <main className="flex-1 overflow-y-auto [scrollbar-gutter:stable] p-4 sm:p-6 lg:p-8 bg-[#000000]">
           <div className="mx-auto max-w-[1440px]">
             <AnimatePresence mode="wait">
               <motion.div

@@ -33,29 +33,31 @@ export const BoardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Board Top Header */}
-      <div className="flex items-center gap-2.5">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
-          Sprint Board
-        </h1>
-        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">
-          Active
-        </span>
+    <div className="space-y-5">
+      {/* Board Top Header — Reference Inspired Typography */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <h1 className="text-3xl font-extrabold tracking-tight text-white">
+            Sprint Board
+          </h1>
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 shadow-xs">
+            Active Sprint
+          </span>
+        </div>
       </div>
 
-      {/* Search & Filter Bar */}
+      {/* Search & Filter Controls */}
       <BoardFilters onNewTaskClick={handleOpenCreateModal} />
 
       {/* Main Board Area */}
       {isLoading && tasks.length === 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="p-4 rounded-2xl bg-[#181920]/90 border border-white/[0.06] space-y-3">
-              <Skeleton variant="text" width="60%" height={20} />
-              <Skeleton variant="card" height={100} />
-              <Skeleton variant="card" height={100} />
-              <Skeleton variant="card" height={100} />
+            <div key={i} className="p-4.5 rounded-3xl bg-[#0c0c0e] space-y-3.5 shadow-md">
+              <Skeleton variant="text" width="60%" height={24} />
+              <Skeleton variant="card" height={110} />
+              <Skeleton variant="card" height={110} />
+              <Skeleton variant="card" height={110} />
             </div>
           ))}
         </div>

@@ -15,22 +15,22 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white shadow-md shadow-violet-950/40 focus-visible:ring-violet-500 disabled:bg-violet-800/60 dark:bg-violet-600 dark:hover:bg-violet-500 dark:disabled:bg-violet-800/60',
+    'bg-white hover:bg-neutral-100 active:bg-neutral-200 text-black font-bold shadow-md shadow-white/10 focus-visible:ring-white disabled:bg-neutral-300 disabled:text-neutral-600',
   secondary:
-    'bg-[#252736] hover:bg-[#2d3042] active:bg-[#35384e] text-slate-100 focus-visible:ring-slate-400',
+    'bg-[#161619] hover:bg-[#222226] active:bg-[#2c2c32] text-white font-semibold focus-visible:ring-white/20',
   outline:
-    'hover:bg-white/5 active:bg-white/10 text-slate-200 focus-visible:ring-slate-400',
+    'border border-white/15 hover:bg-white/5 active:bg-white/10 text-white font-medium focus-visible:ring-white/20',
   danger:
-    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white shadow-sm focus-visible:ring-rose-500 disabled:bg-rose-400 dark:bg-rose-600 dark:hover:bg-rose-500',
+    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white font-bold shadow-sm focus-visible:ring-rose-500 disabled:bg-rose-800/60',
   ghost:
-    'hover:bg-white/5 active:bg-white/10 text-slate-300 focus-visible:ring-slate-400',
+    'hover:bg-[#161619] active:bg-[#222226] text-neutral-300 hover:text-white font-medium focus-visible:ring-white/20',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'h-8 px-3 text-xs gap-1.5 rounded-md',
-  md: 'h-10 px-4 text-sm gap-2 rounded-lg',
-  lg: 'h-12 px-6 text-base gap-2.5 rounded-lg font-medium',
-  icon: 'h-9 w-9 p-0 rounded-lg justify-center',
+  sm: 'h-8 px-3 text-xs gap-1.5 rounded-xl',
+  md: 'h-10 px-4 text-sm gap-2 rounded-xl',
+  lg: 'h-12 px-6 text-base gap-2.5 rounded-xl font-bold',
+  icon: 'h-9 w-9 p-0 rounded-xl justify-center',
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -58,8 +58,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         aria-busy={isLoading}
         className={cn(
-          'inline-flex items-center justify-center font-medium transition-all duration-150 select-none cursor-pointer',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900',
+          'inline-flex items-center justify-center transition-all duration-150 select-none cursor-pointer',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-black',
           'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.98]',
           variantStyles[variant],
           sizeStyles[size],

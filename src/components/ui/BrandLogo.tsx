@@ -30,7 +30,7 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
     <div className={cn('flex items-center gap-2.5 select-none', className)}>
       <div
         className={cn(
-          'relative flex items-center justify-center bg-gradient-to-tr from-violet-600 to-indigo-500 shadow-md shadow-violet-950/50 text-white shrink-0',
+          'relative flex items-center justify-center bg-white shadow-md shadow-white/10 text-black shrink-0',
           iconSizes[size]
         )}
       >
@@ -42,17 +42,17 @@ export const BrandLogo: React.FC<BrandLogoProps> = ({
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-[55%] w-[55%] text-white"
+          className="h-[55%] w-[55%] text-black"
         >
-          <rect x="3" y="3" width="7" height="9" rx="1.5" fill="currentColor" fillOpacity="0.3" />
+          <rect x="3" y="3" width="7" height="9" rx="1.5" fill="currentColor" fillOpacity="0.25" />
           <rect x="14" y="3" width="7" height="5" rx="1.5" fill="currentColor" />
-          <rect x="14" y="12" width="7" height="9" rx="1.5" fill="currentColor" fillOpacity="0.3" />
+          <rect x="14" y="12" width="7" height="9" rx="1.5" fill="currentColor" fillOpacity="0.25" />
           <rect x="3" y="16" width="7" height="5" rx="1.5" fill="currentColor" />
         </svg>
       </div>
 
       {showText && (
-        <span className={cn('text-white truncate', textSizes[size], textClassName)}>
+        <span className={cn('text-white font-extrabold truncate', textSizes[size], textClassName)}>
           SprintDesk
         </span>
       )}

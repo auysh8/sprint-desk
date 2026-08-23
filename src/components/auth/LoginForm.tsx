@@ -50,38 +50,38 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-[490px] p-8 sm:p-11 bg-[#181926] rounded-3xl shadow-2xl shadow-black/90 space-y-7 relative z-10">
+    <div className="w-full max-w-[490px] p-8 sm:p-11 bg-[#0c0c0e] rounded-3xl shadow-2xl shadow-black space-y-7 relative z-10 border-0">
       {/* Header */}
       <div className="text-center space-y-2.5">
-        <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-tr from-violet-600/30 to-purple-600/20 text-violet-300 mb-1 shadow-inner">
+        <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-white/10 text-white mb-1 shadow-inner">
           <Sparkles className="h-7 w-7" />
         </div>
         <h2 className="text-3xl font-extrabold tracking-tight text-white">
           Sign in to SprintDesk
         </h2>
-        <p className="text-sm text-slate-300 font-medium">
+        <p className="text-sm text-neutral-400 font-medium">
           Streamlined agile project and sprint management
         </p>
       </div>
 
       {/* Global Error Banner */}
       {error && (
-        <div className="p-3.5 rounded-2xl bg-rose-500/20 flex items-start gap-3 text-rose-200 text-xs font-medium shadow-sm animate-in fade-in">
+        <div className="p-3.5 rounded-2xl bg-rose-500/20 flex items-start gap-3 text-rose-200 text-xs font-semibold shadow-sm animate-in fade-in">
           <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-rose-300" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Demo Credentials Helper */}
-      <div className="p-4.5 rounded-2xl bg-[#222436] shadow-sm space-y-3">
-        <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+      <div className="p-4.5 rounded-2xl bg-[#161619] shadow-sm space-y-3">
+        <span className="text-xs font-bold text-neutral-300 uppercase tracking-wider block">
           Demo Accounts (Click to fill)
         </span>
         <div className="flex flex-wrap gap-2.5">
           <button
             type="button"
             onClick={() => fillDemoUser('emilys', 'emilyspass')}
-            className="text-xs px-3.5 py-2 rounded-xl bg-[#2d3148] hover:bg-[#383d5a] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
+            className="text-xs px-3.5 py-2 rounded-xl bg-[#222226] hover:bg-[#2c2c32] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
           >
             <span className="h-2 w-2 rounded-full bg-emerald-400 shrink-0" />
             <span>Emily (Lead)</span>
@@ -89,7 +89,7 @@ export const LoginForm: React.FC = () => {
           <button
             type="button"
             onClick={() => fillDemoUser('michaelw', 'michaelwpass')}
-            className="text-xs px-3.5 py-2 rounded-xl bg-[#2d3148] hover:bg-[#383d5a] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
+            className="text-xs px-3.5 py-2 rounded-xl bg-[#222226] hover:bg-[#2c2c32] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
           >
             <span className="h-2 w-2 rounded-full bg-sky-400 shrink-0" />
             <span>Michael (Dev)</span>
@@ -100,7 +100,7 @@ export const LoginForm: React.FC = () => {
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
+          <label className="text-xs font-bold text-neutral-200 uppercase tracking-wider block">
             Username <span className="text-rose-400 font-bold">*</span>
           </label>
           <Input
@@ -108,16 +108,16 @@ export const LoginForm: React.FC = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             error={validationErrors.username}
-            leftIcon={<User className="h-4 w-4 text-slate-400" />}
+            leftIcon={<User className="h-4 w-4 text-neutral-400" />}
             disabled={isLoading}
             autoComplete="username"
             required
-            className="h-12 bg-[#222436] focus:bg-[#282b40] text-white placeholder:text-slate-400 text-sm font-medium rounded-xl focus:ring-2 focus:ring-violet-400 shadow-sm"
+            className="h-12 bg-[#161619] focus:bg-[#222226] text-white placeholder:text-neutral-500 text-sm font-medium rounded-xl focus:ring-2 focus:ring-white/30 shadow-sm"
           />
         </div>
 
         <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
+          <label className="text-xs font-bold text-neutral-200 uppercase tracking-wider block">
             Password <span className="text-rose-400 font-bold">*</span>
           </label>
           <Input
@@ -126,11 +126,11 @@ export const LoginForm: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={validationErrors.password}
-            leftIcon={<Lock className="h-4 w-4 text-slate-400" />}
+            leftIcon={<Lock className="h-4 w-4 text-neutral-400" />}
             disabled={isLoading}
             autoComplete="current-password"
             required
-            className="h-12 bg-[#222436] focus:bg-[#282b40] text-white placeholder:text-slate-400 text-sm font-medium rounded-xl focus:ring-2 focus:ring-violet-400 shadow-sm"
+            className="h-12 bg-[#161619] focus:bg-[#222226] text-white placeholder:text-neutral-500 text-sm font-medium rounded-xl focus:ring-2 focus:ring-white/30 shadow-sm"
           />
           {/* Password Strength Meter */}
           <PasswordStrengthMeter password={password} />
@@ -143,9 +143,9 @@ export const LoginForm: React.FC = () => {
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="h-4.5 w-4.5 rounded accent-violet-500 text-violet-600 bg-[#222436] focus:ring-violet-500 cursor-pointer"
+              className="h-4.5 w-4.5 rounded accent-white text-black bg-[#161619] focus:ring-white/30 cursor-pointer"
             />
-            <span className="text-sm font-medium text-slate-200">
+            <span className="text-sm font-medium text-neutral-200">
               Remember me (30-day session)
             </span>
           </label>
@@ -156,7 +156,7 @@ export const LoginForm: React.FC = () => {
           variant="primary"
           size="lg"
           isLoading={isLoading}
-          className="w-full mt-2 h-12 text-base font-bold bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white rounded-xl shadow-xl shadow-violet-950/70 transition-all"
+          className="w-full mt-2 h-12 text-base font-bold bg-white hover:bg-neutral-100 active:bg-neutral-200 text-black rounded-xl shadow-xl shadow-white/10 transition-all"
         >
           Sign In to Dashboard
         </Button>

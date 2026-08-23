@@ -17,10 +17,10 @@ export interface CompletionTrendChartProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl bg-[#252736] p-3 shadow-2xl shadow-black/80 text-xs space-y-1">
+      <div className="rounded-2xl bg-[#161619] p-3.5 shadow-2xl shadow-black text-xs space-y-1.5 border-0">
         <p className="font-bold text-white mb-1">{label}</p>
-        <p className="text-purple-400">
-          Cumulative Completed: <span className="font-semibold text-white">{payload[0]?.value} tasks</span>
+        <p className="text-emerald-400">
+          Cumulative Completed: <span className="font-bold text-white">{payload[0]?.value} tasks</span>
         </p>
       </div>
     );
@@ -30,11 +30,11 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data }) => {
   return (
-    <div className="bg-[#15161f] p-5 rounded-2xl flex flex-col space-y-4 shadow-sm">
+    <div className="bg-[#0c0c0e] p-6 rounded-3xl flex flex-col space-y-4 shadow-xl shadow-black/80">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-semibold text-white">Completion Velocity Trend</h3>
-          <p className="text-xs text-slate-400">Cumulative task completion over sprint timeline</p>
+          <h3 className="text-base font-bold text-white">Completion Velocity Trend</h3>
+          <p className="text-xs text-neutral-400 font-medium">Cumulative task completion over sprint timeline</p>
         </div>
       </div>
 
@@ -42,24 +42,24 @@ export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
             <defs>
-              <linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#a855f7" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#a855f7" stopOpacity={0.0} />
+              <linearGradient id="emeraldGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#50c878" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#50c878" stopOpacity={0.0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#232733" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1f1f24" vertical={false} />
             <XAxis
               dataKey="date"
-              stroke="#64748b"
+              stroke="#737373"
               fontSize={11}
               tickLine={false}
-              axisLine={{ stroke: '#232733' }}
+              axisLine={{ stroke: '#1f1f24' }}
             />
             <YAxis
-              stroke="#64748b"
+              stroke="#737373"
               fontSize={11}
               tickLine={false}
-              axisLine={{ stroke: '#232733' }}
+              axisLine={{ stroke: '#1f1f24' }}
             />
             <Tooltip
               content={<CustomTooltip />}
@@ -70,9 +70,9 @@ export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data
               type="monotone"
               dataKey="cumulativeCompleted"
               name="Cumulative Completed"
-              stroke="#c084fc"
-              strokeWidth={2.5}
-              fill="url(#purpleGrad)"
+              stroke="#50c878"
+              strokeWidth={3}
+              fill="url(#emeraldGrad)"
             />
           </AreaChart>
         </ResponsiveContainer>

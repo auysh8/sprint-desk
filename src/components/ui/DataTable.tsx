@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowUpDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from './Input';
 import { SkeletonTableRow } from './Skeleton';
 import { cn } from '../../utils/cn';
@@ -106,7 +107,7 @@ export function DataTable<T extends { id?: string | number }>({
   };
 
   return (
-    <div className={cn('w-full flex flex-col gap-3', className)}>
+    <div className={cn('w-full flex flex-col gap-3.5', className)}>
       {/* Top Search bar */}
       <div className="flex items-center justify-between gap-4">
         <div className="max-w-xs w-full">
@@ -117,21 +118,27 @@ export function DataTable<T extends { id?: string | number }>({
               setCurrentPage(1);
             }}
             placeholder={searchPlaceholder}
-            leftIcon={<Search className="h-4 w-4" />}
+            leftIcon={<Search className="h-4 w-4 text-neutral-400" />}
             clearable
             onClear={() => setSearchQuery('')}
+            className="h-10 bg-[#161619] text-white placeholder:text-neutral-500 font-medium rounded-xl shadow-xs"
           />
         </div>
-        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-          Showing {sortedData.length} items
+        <span className="text-xs text-neutral-400 font-semibold">
+          Showing {sortedData.length} tasks
         </span>
       </div>
 
-      {/* Table Container */}
-      <div className="w-full overflow-x-auto rounded-2xl bg-[#15161f] shadow-sm">
-        <table className="w-full text-left border-collapse text-sm">
+      {/* Table Container with Stable Minimum Height to Prevent Layout Shifts */}
+      <div className="w-full overflow-x-auto rounded-3xl bg-[#0c0c0e] shadow-xl shadow-black/80 min-h-[460px] flex flex-col justify-between border-0">
+        <table className="w-full text-left border-collapse text-sm table-fixed min-w-[700px]">
+          <colgroup>
+            {columns.map((col) => (
+              <col key={col.key} style={col.width ? { width: col.width } : undefined} />
+            ))}
+          </colgroup>
           <thead>
-            <tr className="bg-[#1d1e2a]">
+            <tr className="bg-[#161619]">
               {columns.map((col) => {
                 const isSorted = sortKey === col.key;
                 return (
@@ -140,7 +147,7 @@ export function DataTable<T extends { id?: string | number }>({
                     scope="col"
                     style={{ width: col.width }}
                     className={cn(
-                      'px-4 py-3.5 text-xs font-semibold text-slate-300 select-none uppercase tracking-wider',
+                      'px-4 py-3.5 text-xs font-bold text-neutral-300 select-none uppercase tracking-wider',
                       col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : 'text-left'
                     )}
                   >
@@ -148,17 +155,17 @@ export function DataTable<T extends { id?: string | number }>({
                       <button
                         type="button"
                         onClick={() => handleSort(col.key)}
-                        className="inline-flex items-center gap-1.5 hover:text-violet-300 font-semibold focus:outline-none transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 hover:text-white font-bold focus:outline-none transition-colors cursor-pointer"
                       >
                         <span>{col.header}</span>
                         {isSorted ? (
                           sortOrder === 'asc' ? (
-                            <ArrowUp className="h-3.5 w-3.5 text-violet-400" />
+                            <ArrowUp className="h-3.5 w-3.5 text-white" />
                           ) : (
-                            <ArrowDown className="h-3.5 w-3.5 text-violet-400" />
+                            <ArrowDown className="h-3.5 w-3.5 text-white" />
                           )
                         ) : (
-                          <ArrowUpDown className="h-3.5 w-3.5 text-slate-500 opacity-60" />
+                          <ArrowUpDown className="h-3.5 w-3.5 text-neutral-500 opacity-60" />
                         )}
                       </button>
                     ) : (
@@ -182,46 +189,52 @@ export function DataTable<T extends { id?: string | number }>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-4 py-8 text-center text-slate-400 text-sm"
+                  className="px-4 py-16 text-center text-neutral-500 text-sm font-medium"
                 >
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              paginatedData.map((item, index) => {
-                const rowKey = item.id ? String(item.id) : index;
-                return (
-                  <tr
-                    key={rowKey}
-                    onClick={() => onRowClick?.(item)}
-                    className={cn(
-                      'hover:bg-[#252736]/50 transition-colors',
-                      onRowClick && 'cursor-pointer'
-                    )}
-                  >
-                    {columns.map((col) => {
-                      const accessor = col.accessorKey || (col.key as keyof T);
-                      const content = col.cell ? col.cell(item) : (item[accessor] as React.ReactNode);
+              <AnimatePresence mode="wait">
+                {paginatedData.map((item, index) => {
+                  const rowKey = item.id ? String(item.id) : index;
+                  return (
+                    <motion.tr
+                      key={`${currentPage}-${rowKey}`}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.15, delay: index * 0.015 }}
+                      onClick={() => onRowClick?.(item)}
+                      className={cn(
+                        'hover:bg-[#161619] transition-colors h-[54px]',
+                        onRowClick && 'cursor-pointer'
+                      )}
+                    >
+                      {columns.map((col) => {
+                        const accessor = col.accessorKey || (col.key as keyof T);
+                        const content = col.cell ? col.cell(item) : (item[accessor] as React.ReactNode);
 
-                      return (
-                        <td
-                          key={col.key}
-                          className={cn(
-                            'px-4 py-3.5 text-slate-200 text-sm align-middle',
-                            col.align === 'center'
-                              ? 'text-center'
-                              : col.align === 'right'
-                              ? 'text-right'
-                              : 'text-left'
-                          )}
-                        >
-                          {content}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })
+                        return (
+                          <td
+                            key={col.key}
+                            className={cn(
+                              'px-4 py-3.5 text-neutral-200 text-sm align-middle',
+                              col.align === 'center'
+                                ? 'text-center'
+                                : col.align === 'right'
+                                ? 'text-right'
+                                : 'text-left'
+                            )}
+                          >
+                            {content}
+                          </td>
+                        );
+                      })}
+                    </motion.tr>
+                  );
+                })}
+              </AnimatePresence>
             )}
           </tbody>
         </table>
@@ -230,16 +243,17 @@ export function DataTable<T extends { id?: string | number }>({
       {/* Pagination Bar */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-2 py-1">
-          <p className="text-xs text-slate-400">
-            Page {currentPage} of {totalPages}
+          <p className="text-xs text-neutral-400 font-medium">
+            Page <span className="text-white font-bold">{currentPage}</span> of{' '}
+            <span className="text-white font-bold">{totalPages}</span>
           </p>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className="p-1.5 rounded-lg border border-white/5 text-slate-300 hover:bg-[#282730] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-2 rounded-xl bg-[#161619] text-white hover:bg-[#222226] disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Previous page"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -249,7 +263,7 @@ export function DataTable<T extends { id?: string | number }>({
               type="button"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              className="p-1.5 rounded-lg border border-white/5 text-slate-300 hover:bg-[#282730] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-2 rounded-xl bg-[#161619] text-white hover:bg-[#222226] disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Next page"
             >
               <ChevronRight className="h-4 w-4" />

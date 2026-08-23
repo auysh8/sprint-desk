@@ -89,11 +89,11 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="relative w-full max-w-2xl bg-[#252736] rounded-2xl shadow-2xl shadow-black/90 overflow-hidden flex flex-col z-10"
+            className="relative w-full max-w-2xl bg-[#0c0c0e] rounded-3xl shadow-2xl shadow-black overflow-hidden flex flex-col z-10 border-0"
           >
             {/* Search Input Bar */}
-            <div className="flex items-center px-4 py-3.5 bg-[#1d1e2a]/60 gap-3">
-              <Search className="h-5 w-5 text-slate-400 shrink-0" />
+            <div className="flex items-center px-4 py-3.5 bg-[#161619] gap-3">
+              <Search className="h-5 w-5 text-neutral-400 shrink-0" />
               <input
                 ref={inputRef}
                 type="text"
@@ -103,18 +103,18 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                   setSelectedIndex(0);
                 }}
                 placeholder="Search tasks, descriptions, priorities, assignees..."
-                className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-400 focus:outline-none"
+                className="w-full bg-transparent text-sm sm:text-base text-white placeholder:text-neutral-500 focus:outline-none"
               />
               {query && (
                 <button
                   type="button"
                   onClick={() => setQuery('')}
-                  className="p-1 rounded-md text-slate-400 hover:text-slate-200"
+                  className="p-1 rounded-md text-neutral-400 hover:text-white"
                 >
                   <X className="h-4 w-4" />
                 </button>
               )}
-              <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-semibold bg-[#2d3042] text-slate-300 rounded">
+              <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-semibold bg-[#222226] text-neutral-300 rounded">
                 ESC
               </kbd>
             </div>
@@ -122,7 +122,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
             {/* Results List */}
             <div className="max-h-96 overflow-y-auto p-2 space-y-1">
               {filteredTasks.length === 0 ? (
-                <div className="py-12 text-center text-slate-500 text-sm">
+                <div className="py-12 text-center text-neutral-500 text-sm font-medium">
                   No tasks found matching "{query}"
                 </div>
               ) : (
@@ -136,26 +136,26 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                       onClick={() => handleSelectTask(task)}
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={cn(
-                        'flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors',
+                        'flex items-center justify-between p-3 rounded-2xl cursor-pointer transition-colors',
                         isSelected
-                          ? 'bg-violet-500/20 text-violet-200 shadow-xs'
-                          : 'hover:bg-white/5 text-slate-200'
+                          ? 'bg-[#161619] text-white shadow-xs'
+                          : 'hover:bg-[#161619]/50 text-neutral-300'
                       )}
                     >
                       <div className="flex items-center gap-3 min-w-0 flex-1">
                         {task.status === 'done' ? (
-                          <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
                         ) : task.priority === 'high' ? (
-                          <AlertCircle className="h-4 w-4 text-rose-500 shrink-0" />
+                          <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />
                         ) : (
-                          <Clock className="h-4 w-4 text-slate-400 shrink-0" />
+                          <Clock className="h-4 w-4 text-neutral-400 shrink-0" />
                         )}
 
                         <div className="truncate min-w-0">
-                          <p className="text-sm font-semibold truncate text-slate-900 dark:text-white">
+                          <p className="text-sm font-bold truncate text-white">
                             {task.title}
                           </p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                          <p className="text-xs text-neutral-400 truncate">
                             {task.description}
                           </p>
                         </div>
@@ -175,7 +175,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                           {task.priority}
                         </Badge>
 
-                        <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 capitalize hidden sm:inline-block">
+                        <span className="text-[11px] font-semibold text-neutral-400 capitalize hidden sm:inline-block">
                           {task.status}
                         </span>
 
@@ -183,11 +183,11 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
                           <img
                             src={assignee.avatar}
                             alt={assignee.name}
-                            className="h-5 w-5 rounded-full object-cover ring-1 ring-slate-200 dark:ring-white/10 hidden sm:inline-block"
+                            className="h-5 w-5 rounded-full object-cover ring-1 ring-white/10 hidden sm:inline-block"
                           />
                         )}
 
-                        <ArrowRight className="h-3.5 w-3.5 text-slate-400" />
+                        <ArrowRight className="h-3.5 w-3.5 text-neutral-400" />
                       </div>
                     </motion.div>
                   );
@@ -196,7 +196,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
             </div>
 
             {/* Footer hints */}
-            <div className="px-4 py-2 bg-slate-50 dark:bg-[#0e1017] border-t border-slate-200 dark:border-white/5 flex items-center justify-between text-xs text-slate-500">
+            <div className="px-4 py-2.5 bg-[#08080a] flex items-center justify-between text-xs text-neutral-400">
               <div className="flex items-center gap-2">
                 <span>Navigate</span>
                 <kbd className="px-1 py-0.5 bg-white dark:bg-[#1a1d26] rounded border border-slate-200 dark:border-white/10">↑</kbd>

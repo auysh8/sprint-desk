@@ -46,7 +46,7 @@ export const DeleteTaskModal: React.FC<DeleteTaskModalProps> = ({
       }
     >
       <div className="flex items-start gap-3 text-slate-300">
-        <div className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 shrink-0">
+        <div className="p-2 rounded-xl bg-rose-500/20 text-rose-300 shrink-0">
           <AlertTriangle className="h-5 w-5" />
         </div>
         <div className="space-y-1 text-xs">

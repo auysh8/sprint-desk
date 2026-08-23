@@ -86,10 +86,10 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
       size="md"
       footer={
         <div className="flex items-center justify-end gap-2 w-full">
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} className="text-neutral-400 hover:text-white">
             Cancel
           </Button>
-          <Button variant="primary" size="sm" onClick={handleSubmit}>
+          <Button variant="primary" size="sm" onClick={handleSubmit} className="bg-white hover:bg-neutral-100 text-black font-bold">
             Create Task
           </Button>
         </div>
@@ -105,7 +105,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             if (error) setError('');
           }}
           error={error}
-          className="bg-[#13151c] border-white/10"
+          className="bg-[#161619]"
           required
         />
 
@@ -115,7 +115,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             options={statusOptions}
             value={status}
             onChange={(e) => setStatus(e.target.value as TaskStatus)}
-            className="bg-[#13151c] border-white/10"
+            className="bg-[#161619]"
           />
 
           <Select
@@ -123,7 +123,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             options={priorityOptions}
             value={priority}
             onChange={(e) => setPriority(e.target.value as TaskPriority)}
-            className="bg-[#13151c] border-white/10"
+            className="bg-[#161619]"
           />
         </div>
 
@@ -133,7 +133,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             options={assigneeOptions}
             value={String(assigneeId)}
             onChange={(e) => setAssigneeId(Number(e.target.value))}
-            className="bg-[#13151c] border-white/10"
+            className="bg-[#161619]"
           />
 
           <Input
@@ -141,12 +141,12 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="bg-[#13151c] border-white/10"
+            className="bg-[#161619]"
           />
         </div>
 
         <div>
-          <label className="text-xs font-semibold text-slate-400 block mb-1.5">
+          <label className="text-xs font-bold text-neutral-300 block mb-1.5">
             Description
           </label>
           <textarea
@@ -154,7 +154,7 @@ export const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
             placeholder="Add requirements, technical specs or acceptance criteria..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full rounded-xl bg-[#13151c] border border-white/10 p-3 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all resize-none"
+            className="w-full rounded-2xl bg-[#161619] p-3.5 text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all resize-none shadow-xs"
           />
         </div>
       </form>

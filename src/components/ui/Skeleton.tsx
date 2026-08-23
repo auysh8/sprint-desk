@@ -26,7 +26,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   return (
     <div
       className={cn(
-        'animate-pulse bg-slate-200/80 dark:bg-slate-800/80',
+        'animate-pulse bg-[#161619]',
         variantStyles[variant],
         className
       )}
@@ -44,7 +44,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 export const SkeletonCard: React.FC<{ className?: string }> = ({ className }) => (
   <div
     className={cn(
-      'p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 flex flex-col gap-3',
+      'p-4.5 rounded-2xl bg-[#161619] flex flex-col gap-3 shadow-sm',
       className
     )}
   >
@@ -54,7 +54,7 @@ export const SkeletonCard: React.FC<{ className?: string }> = ({ className }) =>
     </div>
     <Skeleton variant="text" width="85%" height={18} />
     <Skeleton variant="text" width="60%" height={14} />
-    <div className="flex items-center justify-between pt-2 mt-auto border-t border-slate-100 dark:border-slate-800">
+    <div className="flex items-center justify-between pt-2 mt-auto">
       <Skeleton variant="rectangular" width={60} height={16} />
       <Skeleton variant="circular" width={28} height={28} />
     </div>
@@ -62,7 +62,7 @@ export const SkeletonCard: React.FC<{ className?: string }> = ({ className }) =>
 );
 
 export const SkeletonTableRow: React.FC<{ columns?: number }> = ({ columns = 4 }) => (
-  <div className="flex items-center gap-4 py-3 px-4 border-b border-slate-100 dark:border-slate-800/60 animate-pulse">
+  <div className="flex items-center gap-4 py-3 px-4 animate-pulse">
     {Array.from({ length: columns }).map((_, i) => (
       <Skeleton
         key={i}

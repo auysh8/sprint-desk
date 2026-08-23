@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Calendar,
   ArrowRight,
@@ -15,9 +15,9 @@ import { cn } from '../utils/cn';
 
 // M3 Expressive Soft Pill Chips
 const statusConfig: Record<string, { label: string; className: string }> = {
-  backlog: { label: 'Backlog', className: 'bg-slate-500/20 text-slate-300' },
-  'in-progress': { label: 'In Progress', className: 'bg-violet-500/20 text-violet-300' },
-  review: { label: 'Review', className: 'bg-amber-500/20 text-amber-300' },
+  backlog: { label: 'Backlog', className: 'bg-neutral-500/20 text-neutral-300' },
+  'in-progress': { label: 'In Progress', className: 'bg-amber-500/20 text-amber-300' },
+  review: { label: 'Review', className: 'bg-sky-500/20 text-sky-300' },
   done: { label: 'Done', className: 'bg-emerald-500/20 text-emerald-300' },
 };
 
@@ -73,15 +73,16 @@ export const DashboardPage: React.FC = () => {
     navigate('/board');
   };
 
-  // DataTable columns definition for Tasks
+  // DataTable columns definition for Tasks with Fixed Proportional Widths
   const taskColumns: ColumnDef<Task>[] = [
     {
       key: 'title',
       header: 'Task Title',
+      width: '42%',
       sortable: true,
       cell: (task) => (
-        <div className="flex flex-col">
-          <span className="font-semibold text-white group-hover:text-violet-300 transition-colors">
+        <div className="flex flex-col pr-2">
+          <span className="font-semibold text-white group-hover:text-neutral-200 transition-colors truncate">
             {task.title}
           </span>
           <span className="text-xs text-slate-400 line-clamp-1">
@@ -93,11 +94,12 @@ export const DashboardPage: React.FC = () => {
     {
       key: 'status',
       header: 'Status',
+      width: '14%',
       sortable: true,
       cell: (task) => {
         const conf = statusConfig[task.status] || statusConfig.backlog;
         return (
-          <span className={cn('inline-flex items-center text-[11px] font-medium px-2.5 py-0.5 rounded-full border', conf.className)}>
+          <span className={cn('inline-flex items-center text-[11px] font-bold px-2.5 py-0.5 rounded-md shadow-xs', conf.className)}>
             {conf.label}
           </span>
         );
@@ -106,11 +108,12 @@ export const DashboardPage: React.FC = () => {
     {
       key: 'priority',
       header: 'Priority',
+      width: '14%',
       sortable: true,
       cell: (task) => {
         const conf = priorityConfig[task.priority] || priorityConfig.low;
         return (
-          <span className={cn('inline-flex items-center text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded-full border', conf.className)}>
+          <span className={cn('inline-flex items-center text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded-md shadow-xs', conf.className)}>
             {conf.label}
           </span>
         );
@@ -119,6 +122,7 @@ export const DashboardPage: React.FC = () => {
     {
       key: 'assigneeId',
       header: 'Assignee',
+      width: '16%',
       cell: (task) => {
         const assignee = users.find((u) => u.id === task.assigneeId);
         return (
@@ -126,7 +130,7 @@ export const DashboardPage: React.FC = () => {
             <img
               src={assignee?.avatar || 'https://i.pravatar.cc/150?img=1'}
               alt={assignee?.name || 'User'}
-              className="h-6 w-6 rounded-full object-cover ring-1 ring-white/10"
+              className="h-6 w-6 rounded-full object-cover ring-2 ring-white/10 shrink-0"
             />
             <span className="text-xs text-slate-300 truncate">{assignee?.name?.split(' ')[0] || 'Unassigned'}</span>
           </div>
@@ -136,11 +140,12 @@ export const DashboardPage: React.FC = () => {
     {
       key: 'dueDate',
       header: 'Due Date',
+      width: '14%',
       sortable: true,
       cell: (task) => {
         const isPast = new Date(task.dueDate) < new Date() && task.status !== 'done';
         return (
-          <span className={cn('text-xs font-medium', isPast ? 'text-rose-400' : 'text-slate-400')}>
+          <span className={cn('text-xs font-semibold', isPast ? 'text-rose-400' : 'text-slate-400')}>
             {task.dueDate}
           </span>
         );
@@ -152,72 +157,72 @@ export const DashboardPage: React.FC = () => {
     <div className="space-y-6 max-w-[1400px] mx-auto text-slate-200">
       {/* Header Area */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-3xl font-extrabold tracking-tight text-white">
           Welcome back, {currentUser?.firstName || 'Lead'}
         </h1>
       </div>
 
-      {/* Top 4 KPI Metrics Cards — Colorful Dark Tonal Cards (Borderless Elevated) */}
+      {/* Top 4 KPI Metrics Cards — Reference-Inspired Solid Vibrant Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Completed Tasks (Emerald) */}
+        {/* Card 1: Completed Tasks (Mint Green) */}
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.15 }}
-          className="bg-[#12221b] p-5 rounded-2xl flex flex-col justify-between space-y-2 shadow-md shadow-black/30 transition-colors"
+          className="bg-[#50c878] p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-lg shadow-black/20 transition-all text-[#062612]"
         >
-          <span className="text-xs uppercase font-bold text-emerald-300 tracking-wider">Completed Tasks</span>
+          <span className="text-xs uppercase font-extrabold tracking-wider text-[#062612]/80">Completed Tasks</span>
           <div className="space-y-0.5">
-            <div className="text-2xl font-bold text-emerald-100 tracking-tight">
-              {metrics.completed} <span className="text-sm font-normal text-emerald-300/70">/ {metrics.total}</span>
+            <div className="text-3xl font-black text-[#062612] tracking-tight">
+              {metrics.completed} <span className="text-sm font-semibold text-[#062612]/70">/ {metrics.total}</span>
             </div>
-            <p className="text-xs text-emerald-400 font-semibold">{metrics.completionRate}% completion rate</p>
+            <p className="text-xs text-[#062612] font-bold">{metrics.completionRate}% completion rate</p>
           </div>
         </motion.div>
 
-        {/* Card 2: Active In-Flight (Violet) */}
+        {/* Card 2: Active In-Flight (Warm Amber) */}
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.15 }}
-          className="bg-[#201830] p-5 rounded-2xl flex flex-col justify-between space-y-2 shadow-md shadow-black/30 transition-colors"
+          className="bg-[#f4d35e] p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-lg shadow-black/20 transition-all text-[#2b1d03]"
         >
-          <span className="text-xs uppercase font-bold text-violet-300 tracking-wider">Active In-Flight</span>
+          <span className="text-xs uppercase font-extrabold tracking-wider text-[#2b1d03]/80">Active In-Flight</span>
           <div className="space-y-0.5">
-            <div className="text-2xl font-bold text-violet-200 tracking-tight">
+            <div className="text-3xl font-black text-[#2b1d03] tracking-tight">
               {metrics.inProgress}
             </div>
-            <p className="text-xs text-violet-300/80 font-medium">In Progress & Review</p>
+            <p className="text-xs text-[#2b1d03] font-bold">In Progress & Review</p>
           </div>
         </motion.div>
 
-        {/* Card 3: Assigned to Me (Sky) */}
+        {/* Card 3: Assigned to Me (Sky Blue) */}
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.15 }}
-          className="bg-[#122030] p-5 rounded-2xl flex flex-col justify-between space-y-2 shadow-md shadow-black/30 transition-colors"
+          className="bg-[#38b6ff] p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-lg shadow-black/20 transition-all text-white"
         >
-          <span className="text-xs uppercase font-bold text-sky-300 tracking-wider">Assigned to Me</span>
+          <span className="text-xs uppercase font-extrabold tracking-wider text-white/90">Assigned to Me</span>
           <div className="space-y-0.5">
-            <div className="text-2xl font-bold text-sky-100 tracking-tight">
+            <div className="text-3xl font-black text-white tracking-tight">
               {myTasks.length}
             </div>
-            <p className="text-xs text-sky-300 font-semibold">
+            <p className="text-xs text-white font-bold">
               {myTasks.filter((t) => t.status !== 'done').length} pending tasks
             </p>
           </div>
         </motion.div>
 
-        {/* Card 4: Overdue Tasks (Rose) */}
+        {/* Card 4: Overdue Tasks (Coral Peach) */}
         <motion.div
           whileHover={{ y: -2 }}
           transition={{ duration: 0.15 }}
-          className="bg-[#28151c] p-5 rounded-2xl flex flex-col justify-between space-y-2 shadow-md shadow-black/30 transition-colors"
+          className="bg-[#f37a6b] p-5 rounded-3xl flex flex-col justify-between space-y-3 shadow-lg shadow-black/20 transition-all text-[#2d080c]"
         >
-          <span className="text-xs uppercase font-bold text-rose-300 tracking-wider">Overdue Tasks</span>
+          <span className="text-xs uppercase font-extrabold tracking-wider text-[#2d080c]/80">Overdue Tasks</span>
           <div className="space-y-0.5">
-            <div className="text-2xl font-bold text-rose-200 tracking-tight">
+            <div className="text-3xl font-black text-[#2d080c] tracking-tight">
               {metrics.overdue}
             </div>
-            <p className="text-xs text-rose-300/80 font-medium">Past target due date</p>
+            <p className="text-xs text-[#2d080c] font-bold">Past target due date</p>
           </div>
         </motion.div>
       </div>
@@ -226,14 +231,14 @@ export const DashboardPage: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <Flame className="h-4 w-4 text-violet-400" />
-            <h2 className="text-base font-bold text-white tracking-tight">
+            <Flame className="h-5 w-5 text-amber-400" />
+            <h2 className="text-lg font-extrabold text-white tracking-tight">
               Workload & Tasks
             </h2>
           </div>
 
           {/* Inline Segmented Control */}
-          <div className="inline-flex items-center gap-1 bg-[#15161f] p-1 rounded-full shadow-xs">
+          <div className="inline-flex items-center gap-1 bg-[#0c0c0e] p-1 rounded-2xl shadow-xs">
             {(['Overview', 'My Tasks', 'All Tasks'] as const).map((tab) => {
               const isActive = activeTab === tab;
               return (
@@ -242,16 +247,16 @@ export const DashboardPage: React.FC = () => {
                   type="button"
                   onClick={() => setActiveTab(tab)}
                   className={cn(
-                    'relative px-3.5 py-1 rounded-full text-xs font-medium transition-colors duration-150 cursor-pointer',
+                    'relative px-4 py-1.5 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer',
                     isActive
-                      ? 'text-white font-semibold'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'text-black font-bold'
+                      : 'text-neutral-400 hover:text-white'
                   )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="dashboard-active-pill"
-                      className="absolute inset-0 bg-[#252736] rounded-full shadow-xs"
+                      className="absolute inset-0 bg-white rounded-xl shadow-md shadow-white/10"
                       transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
@@ -268,141 +273,145 @@ export const DashboardPage: React.FC = () => {
             size="sm"
             onClick={() => navigate('/board')}
             rightIcon={<ArrowRight className="h-3.5 w-3.5" />}
-            className="text-xs text-violet-400 hover:text-violet-300 hover:bg-[#15161f]"
+            className="text-xs font-bold text-neutral-300 hover:text-white hover:bg-[#161619] px-3.5 py-2 rounded-xl"
           >
             Go to Kanban Board
           </Button>
         )}
       </div>
 
-      {/* Main Content Area */}
-      {activeTab === 'Overview' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column (Span 2): Active Workload Cards — F-Pattern Layout */}
-          <div className="lg:col-span-2 space-y-3">
-            {myTasks.slice(0, 5).map((task) => {
-              const pConf = priorityConfig[task.priority] || priorityConfig.low;
-              const sConf = statusConfig[task.status] || statusConfig.backlog;
-
-              return (
-                <motion.div
-                  key={task.id}
-                  whileHover={{ y: -2 }}
-                  transition={{ duration: 0.12 }}
-                  onClick={() => handleTaskClick(task)}
-                  className="bg-[#1d1e2a] hover:bg-[#252736] p-4 rounded-2xl transition-all duration-150 space-y-2.5 cursor-pointer group shadow-xs hover:shadow-md"
-                >
-                  {/* Top Row: Task Title (Left) + Grouped Priority & Status Chips (Right) */}
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-base font-semibold text-white group-hover:text-violet-300 transition-colors leading-snug truncate">
-                      {task.title}
-                    </h3>
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className={cn('inline-flex items-center text-[10px] font-bold tracking-wider px-2.5 py-0.5 rounded-md', pConf.className)}>
-                        {pConf.label}
-                      </span>
-                      <span className={cn('inline-flex items-center text-[11px] font-semibold px-2.5 py-0.5 rounded-md', sConf.className)}>
-                        {sConf.label}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Middle Row: Task Description */}
-                  <p className="text-sm text-slate-300 line-clamp-1">{task.description}</p>
-
-                  {/* Bottom Footer: Subtly decreased visual prominence Due Date */}
-                  <div className="flex items-center gap-1.5 text-xs text-slate-400 font-normal pt-1">
-                    <Calendar className="h-3.5 w-3.5 text-slate-500" />
-                    <span>Due {task.dueDate}</span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Right Column: Sprint Team Capacity — Streamlined Clean Widget */}
-          <div className="space-y-6">
-            <div className="bg-[#15161f] p-4.5 rounded-2xl space-y-3.5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-white">Sprint Team Capacity</h3>
-                <span className="text-xs text-slate-400">{users.length} members</span>
-              </div>
-
-              <div className="space-y-2.5">
-                {users.map((member) => {
-                  const memberAssigned = tasks.filter((t) => t.assigneeId === member.id);
-                  const memberDone = memberAssigned.filter((t) => t.status === 'done').length;
-                  const percent = memberAssigned.length > 0 ? Math.round((memberDone / memberAssigned.length) * 100) : 0;
+      {/* Main Content Area with Smooth Page Transition & Stable Height */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.18, ease: 'easeOut' }}
+          className="min-h-[500px]"
+        >
+          {activeTab === 'Overview' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Left Column (Span 2): Active Workload Cards — F-Pattern Layout */}
+              <div className="lg:col-span-2 space-y-3">
+                {myTasks.slice(0, 5).map((task) => {
+                  const pConf = priorityConfig[task.priority] || priorityConfig.low;
+                  const sConf = statusConfig[task.status] || statusConfig.backlog;
 
                   return (
-                    <div
-                      key={member.id}
-                      className="space-y-2.5 p-3 rounded-xl bg-[#1d1e2a] shadow-xs"
+                    <motion.div
+                      key={task.id}
+                      whileHover={{ y: -2 }}
+                      transition={{ duration: 0.12 }}
+                      onClick={() => handleTaskClick(task)}
+                      className="bg-[#161619] hover:bg-[#222226] p-4.5 rounded-2xl transition-all duration-150 space-y-2.5 cursor-pointer group shadow-xs hover:shadow-md"
                     >
-                      {/* Name (Left) and Percentage (Right) on the same baseline */}
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <img
-                            src={member.avatar}
-                            alt={member.name}
-                            className="h-7 w-7 rounded-full object-cover ring-1 ring-white/10"
-                          />
-                          <span className="text-xs font-semibold text-slate-200 leading-none">
-                            {member.name}
+                      {/* Top Row: Task Title (Left) + Grouped Priority & Status Chips (Right) */}
+                      <div className="flex items-start justify-between gap-3">
+                        <h3 className="text-base font-bold text-white group-hover:text-neutral-200 transition-colors leading-snug truncate">
+                          {task.title}
+                        </h3>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className={cn('inline-flex items-center text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-md shadow-xs', pConf.className)}>
+                            {pConf.label}
+                          </span>
+                          <span className={cn('inline-flex items-center text-[11px] font-bold px-2.5 py-0.5 rounded-md shadow-xs', sConf.className)}>
+                            {sConf.label}
                           </span>
                         </div>
-                        <span className="text-xs font-bold text-violet-300 leading-none">{percent}%</span>
                       </div>
 
-                      {/* Smooth Thick (h-2) Rounded Progress Bar with High-Contrast Background Track */}
-                      <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${percent}%` }}
-                          transition={{ duration: 0.5, ease: 'easeOut' }}
-                          className="h-full bg-violet-500 rounded-full"
-                        />
+                      {/* Middle Row: Task Description */}
+                      <p className="text-sm text-neutral-300 line-clamp-1">{task.description}</p>
+
+                      {/* Bottom Footer: Due Date */}
+                      <div className="flex items-center gap-1.5 text-xs text-neutral-400 font-normal pt-1">
+                        <Calendar className="h-3.5 w-3.5 text-neutral-500" />
+                        <span>Due {task.dueDate}</span>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
+
+              {/* Right Column: Sprint Team Capacity — Streamlined Clean Widget */}
+              <div className="space-y-6">
+                <div className="bg-[#0c0c0e] p-5 rounded-3xl space-y-4 shadow-md">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-bold text-white">Sprint Team Capacity</h3>
+                    <span className="text-xs text-neutral-400 font-semibold">{users.length} members</span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {users.map((member) => {
+                      const memberAssigned = tasks.filter((t) => t.assigneeId === member.id);
+                      const memberDone = memberAssigned.filter((t) => t.status === 'done').length;
+                      const percent = memberAssigned.length > 0 ? Math.round((memberDone / memberAssigned.length) * 100) : 0;
+
+                      return (
+                        <div
+                          key={member.id}
+                          className="space-y-2.5 p-3.5 rounded-2xl bg-[#161619] shadow-xs"
+                        >
+                          {/* Name (Left) and Percentage (Right) */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                              <img
+                                src={member.avatar}
+                                alt={member.name}
+                                className="h-7 w-7 rounded-full object-cover ring-2 ring-white/10"
+                              />
+                              <span className="text-xs font-bold text-neutral-200 leading-none">
+                                {member.name}
+                              </span>
+                            </div>
+                            <span className="text-xs font-extrabold text-white leading-none">{percent}%</span>
+                          </div>
+
+                          {/* Smooth Thick (h-2) Rounded Progress Bar */}
+                          <div className="h-2 w-full bg-neutral-800 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percent}%` }}
+                              transition={{ duration: 0.5, ease: 'easeOut' }}
+                              className="h-full bg-white rounded-full"
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          ) : (
+            <div className="space-y-4 pt-1">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-slate-400 font-medium">
+                  Interactive data table with sorting, global search, and instant filtering.
+                </p>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => navigate('/board')}
+                  rightIcon={<ArrowRight className="h-3.5 w-3.5" />}
+                  className="bg-white hover:bg-slate-100 text-slate-950 font-bold px-3.5 py-1.5 rounded-xl shadow-xs"
+                >
+                  Open in Board
+                </Button>
+              </div>
 
-      {/* Tab: My Tasks or All Tasks DataTable */}
-      {(activeTab === 'My Tasks' || activeTab === 'All Tasks') && (
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="space-y-4 pt-1"
-        >
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-slate-400">
-              Interactive data table with sorting, global search, and instant filtering.
-            </p>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => navigate('/board')}
-              rightIcon={<ArrowRight className="h-3.5 w-3.5" />}
-            >
-              Open in Board
-            </Button>
-          </div>
-
-          <DataTable
-            data={activeTab === 'My Tasks' ? myTasks : tasks}
-            columns={taskColumns}
-            searchPlaceholder="Search task title, description, or status..."
-            pageSize={8}
-            onRowClick={handleTaskClick}
-          />
+              <DataTable
+                data={activeTab === 'My Tasks' ? myTasks : tasks}
+                columns={taskColumns}
+                searchPlaceholder="Search task title, description, or status..."
+                pageSize={8}
+                onRowClick={handleTaskClick}
+              />
+            </div>
+          )}
         </motion.div>
-      )}
+      </AnimatePresence>
     </div>
   );
 };

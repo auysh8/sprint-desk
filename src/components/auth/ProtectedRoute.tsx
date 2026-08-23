@@ -9,7 +9,7 @@ export const ProtectedRoute: React.FC<{ children?: React.ReactNode }> = ({ child
 
   if (isLoading) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0e0f14] text-white selection:bg-violet-500/30">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#000000] text-white selection:bg-white/20">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-pulse">
             <BrandLogo size="lg" showText={false} />

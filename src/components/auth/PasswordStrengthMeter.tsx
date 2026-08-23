@@ -29,7 +29,7 @@ export const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({
             key={index}
             className={cn(
               'h-full rounded-full transition-all duration-300',
-              index < score ? color : 'bg-[#2d3148]'
+              index < score ? color : 'bg-[#222226]'
             )}
           />
         ))}

@@ -13,22 +13,65 @@ export interface TaskCardProps {
   isOverlay?: boolean;
 }
 
-const priorityConfig: Record<
-  Task['priority'],
-  { label: string; className: string }
-> = {
-  high: {
-    label: 'HIGH',
-    className: 'bg-rose-500/20 text-rose-300',
+interface CardTheme {
+  cardBg: string;
+  titleColor: string;
+  descColor: string;
+  badgeBg: string;
+  badgeText: string;
+  subtleBadgeBg: string;
+  footerTextColor: string;
+  avatarRing: string;
+}
+
+// Solid saturated themes matching the reference design
+const statusCardThemes: Record<Task['status'], CardTheme> = {
+  done: {
+    cardBg: 'bg-[#50c878] hover:bg-[#48bd70]',
+    titleColor: 'text-[#04200f]',
+    descColor: 'text-[#093319]',
+    badgeBg: 'bg-[#04200f] text-white',
+    badgeText: 'text-white',
+    subtleBadgeBg: 'bg-black/15 text-[#04200f]',
+    footerTextColor: 'text-[#062914]',
+    avatarRing: 'ring-[#04200f]/30',
   },
-  medium: {
-    label: 'MEDIUM',
-    className: 'bg-amber-500/20 text-amber-300',
+  backlog: {
+    cardBg: 'bg-[#f37a6b] hover:bg-[#e86f60]',
+    titleColor: 'text-[#260509]',
+    descColor: 'text-[#420c13]',
+    badgeBg: 'bg-[#260509] text-white',
+    badgeText: 'text-white',
+    subtleBadgeBg: 'bg-black/15 text-[#260509]',
+    footerTextColor: 'text-[#2e070c]',
+    avatarRing: 'ring-[#260509]/30',
   },
-  low: {
-    label: 'LOW',
-    className: 'bg-blue-500/20 text-blue-300',
+  'in-progress': {
+    cardBg: 'bg-[#f4d35e] hover:bg-[#e8c650]',
+    titleColor: 'text-[#261801]',
+    descColor: 'text-[#3d2703]',
+    badgeBg: 'bg-[#261801] text-white',
+    badgeText: 'text-white',
+    subtleBadgeBg: 'bg-black/15 text-[#261801]',
+    footerTextColor: 'text-[#2b1c02]',
+    avatarRing: 'ring-[#261801]/30',
   },
+  review: {
+    cardBg: 'bg-[#8a5df5] hover:bg-[#7d4fe8]',
+    titleColor: 'text-white',
+    descColor: 'text-[#ece4fd]',
+    badgeBg: 'bg-white/25 text-white',
+    badgeText: 'text-white',
+    subtleBadgeBg: 'bg-black/20 text-white',
+    footerTextColor: 'text-white/90',
+    avatarRing: 'ring-white/40',
+  },
+};
+
+const priorityLabels: Record<Task['priority'], string> = {
+  high: 'HIGH',
+  medium: 'MED',
+  low: 'LOW',
 };
 
 const TaskCardComponent: React.FC<TaskCardProps> = ({
@@ -59,9 +102,11 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({
     transition,
   };
 
+  const theme = statusCardThemes[task.status] || statusCardThemes.backlog;
+
   const formatDueDate = (dateString: string, status: Task['status']) => {
     if (status === 'done') {
-      return { text: 'Completed', isOverdue: false, isDone: true };
+      return { text: 'Done', isOverdue: false, isDone: true };
     }
 
     try {
@@ -74,7 +119,7 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({
         return { text: `${Math.abs(diffDays)}d overdue`, isOverdue: true, isDone: false };
       }
       if (diffDays === 0) {
-        return { text: 'Due today', isOverdue: false, isDone: false };
+        return { text: 'Today', isOverdue: false, isDone: false };
       }
       return { text: `${diffDays}d left`, isOverdue: false, isDone: false };
     } catch {
@@ -83,7 +128,6 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({
   };
 
   const dueInfo = formatDueDate(task.dueDate, task.status);
-  const pConf = priorityConfig[task.priority] || priorityConfig.low;
 
   return (
     <div
@@ -93,77 +137,82 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({
       {...listeners}
       onClick={onClick}
       className={cn(
-        'bg-[#1a1b26] hover:bg-[#222433] rounded-xl p-4 transition-all duration-150 group cursor-grab active:cursor-grabbing select-none space-y-3 relative shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50',
-        isDragging && 'opacity-30',
-        isOverlay && 'shadow-2xl shadow-black/90 rotate-1 scale-[1.02] z-50 bg-[#2b2d3c] cursor-grabbing'
+        'rounded-2xl p-4 transition-all duration-150 group cursor-grab active:cursor-grabbing select-none space-y-2.5 relative shadow-md shadow-black/25 hover:shadow-xl hover:scale-[1.01]',
+        theme.cardBg,
+        isDragging && 'opacity-30 scale-95',
+        isOverlay && 'shadow-2xl shadow-black/90 rotate-1 scale-[1.04] z-50 cursor-grabbing'
       )}
     >
-      {/* Row 1: Flush Task Title (Larger & Clearer) */}
-      <h4 className="font-semibold text-sm text-white line-clamp-2 leading-snug group-hover:text-violet-300 transition-colors">
-        {task.title}
-      </h4>
-
-      {/* Row 2: Tag / Priority Chip + Snippet */}
-      <div className="flex items-center gap-2 flex-wrap">
+      {/* Row 1: Title + Priority Badge */}
+      <div className="flex items-start justify-between gap-2.5">
+        <h4 className={cn('font-bold text-sm leading-snug line-clamp-2', theme.titleColor)}>
+          {task.title}
+        </h4>
         <span
           className={cn(
-            'inline-flex items-center text-xs font-bold tracking-wider px-2.5 py-0.5 rounded-md shrink-0',
-            pConf.className
+            'inline-flex items-center text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded-md shrink-0 shadow-xs',
+            theme.badgeBg
           )}
         >
-          {pConf.label}
+          {priorityLabels[task.priority]}
         </span>
-        {task.description && (
-          <span className="text-xs text-slate-300 truncate max-w-[200px]">
-            {task.description}
-          </span>
-        )}
       </div>
 
-      {/* Row 3: Clean Minimalist Footer */}
-      <div className="flex items-center justify-between pt-1">
-        {/* Left: Task ID & Due / Comments */}
-        <div className="flex items-center gap-2.5 text-xs text-slate-300">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
-            <Bookmark className="h-4 w-4 text-emerald-400 fill-emerald-400/20 shrink-0" />
-            SD-{task.id}
+      {/* Row 2: Description snippet */}
+      {task.description && (
+        <p className={cn('text-xs font-medium line-clamp-1 opacity-90 leading-relaxed', theme.descColor)}>
+          {task.description}
+        </p>
+      )}
+
+      {/* Row 3: Footer with ID, Due Date/Comments, and Assignee Avatar */}
+      <div className="flex items-center justify-between gap-2 pt-1 border-t border-black/5">
+        <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+          {/* SD ID Badge */}
+          <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md shadow-xs shrink-0', theme.subtleBadgeBg)}>
+            <Bookmark className="h-3 w-3 fill-current opacity-80" />
+            <span>SD-{task.id}</span>
           </span>
 
+          {/* Due status with High-Contrast Overdue Alert Pill */}
           {dueInfo.isOverdue ? (
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-rose-400">
-              <AlertTriangle className="h-3.5 w-3.5" />
-              {dueInfo.text}
+            <span className="inline-flex items-center gap-1 text-[11px] font-extrabold px-2 py-0.5 rounded-md bg-rose-600 text-white shadow-xs shrink-0 animate-pulse">
+              <AlertTriangle className="h-3 w-3 stroke-[2.5] text-white" />
+              <span>{dueInfo.text}</span>
             </span>
           ) : dueInfo.isDone ? (
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-400">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              {dueInfo.text}
+            <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md shadow-xs shrink-0', theme.subtleBadgeBg)}>
+              <CheckCircle2 className="h-3 w-3" />
+              <span>{dueInfo.text}</span>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-normal">
-              <Clock className="h-3.5 w-3.5" />
-              {dueInfo.text}
+            <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md shadow-xs shrink-0', theme.subtleBadgeBg)}>
+              <Clock className="h-3 w-3 opacity-80" />
+              <span>{dueInfo.text}</span>
             </span>
           )}
 
+          {/* Comments count */}
           {commentsCount > 0 && (
-            <span className="inline-flex items-center gap-1 text-xs text-slate-300 font-medium">
-              <MessageSquare className="h-3.5 w-3.5 text-slate-400" />
-              {commentsCount}
+            <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md shadow-xs shrink-0', theme.subtleBadgeBg)}>
+              <MessageSquare className="h-3 w-3 opacity-80" />
+              <span>{commentsCount}</span>
             </span>
           )}
         </div>
 
-        {/* Right: Assignee Avatar */}
+        {/* Assignee Avatar */}
         {assignee ? (
           <img
             src={assignee.avatar}
             alt={assignee.name}
             title={assignee.name}
-            className="h-7 w-7 rounded-full object-cover ring-1 ring-white/15 shrink-0"
+            className={cn('h-6 w-6 rounded-full object-cover ring-2 shrink-0 shadow-xs', theme.avatarRing)}
           />
         ) : (
-          <span className="text-xs text-slate-400 italic">Unassigned</span>
+          <span className={cn('text-[10px] font-bold italic opacity-75 shrink-0', theme.footerTextColor)}>
+            Unassigned
+          </span>
         )}
       </div>
     </div>
@@ -171,4 +220,3 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({
 };
 
 export const TaskCard = React.memo(TaskCardComponent);
-
