@@ -3,7 +3,6 @@ import {
   Sun,
   Moon,
   LogOut,
-  Bell,
   Search,
   Menu,
   ChevronDown,
@@ -11,6 +10,7 @@ import {
 import { useAuthStore } from '../../store/authStore';
 import { useThemeStore } from '../../store/themeStore';
 import { useToast } from '../ui/Toast/ToastContext';
+import { NotificationDropdown } from '../notifications/NotificationDropdown';
 
 export interface NavbarProps {
   onToggleSidebarMobile: () => void;
@@ -80,15 +80,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebarMobile }) => {
           )}
         </button>
 
-        {/* Notification Bell */}
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="relative p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[#161822] transition-colors cursor-pointer"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-purple-500 ring-2 ring-[#0b0c10]" />
-        </button>
+        {/* Real-time Notification Dropdown */}
+        <NotificationDropdown />
 
         {/* User Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>
