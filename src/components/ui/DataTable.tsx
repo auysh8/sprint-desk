@@ -128,10 +128,10 @@ export function DataTable<T extends { id?: string | number }>({
       </div>
 
       {/* Table Container */}
-      <div className="w-full overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+      <div className="w-full overflow-x-auto rounded-2xl bg-[#15161f] shadow-sm">
         <table className="w-full text-left border-collapse text-sm">
           <thead>
-            <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+            <tr className="bg-[#1d1e2a]">
               {columns.map((col) => {
                 const isSorted = sortKey === col.key;
                 return (
@@ -140,7 +140,7 @@ export function DataTable<T extends { id?: string | number }>({
                     scope="col"
                     style={{ width: col.width }}
                     className={cn(
-                      'px-4 py-3 text-xs font-semibold text-slate-600 dark:text-slate-300 select-none uppercase tracking-wider',
+                      'px-4 py-3.5 text-xs font-semibold text-slate-300 select-none uppercase tracking-wider',
                       col.align === 'center' ? 'text-center' : col.align === 'right' ? 'text-right' : 'text-left'
                     )}
                   >
@@ -148,17 +148,17 @@ export function DataTable<T extends { id?: string | number }>({
                       <button
                         type="button"
                         onClick={() => handleSort(col.key)}
-                        className="inline-flex items-center gap-1.5 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold focus:outline-none transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 hover:text-violet-300 font-semibold focus:outline-none transition-colors cursor-pointer"
                       >
                         <span>{col.header}</span>
                         {isSorted ? (
                           sortOrder === 'asc' ? (
-                            <ArrowUp className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+                            <ArrowUp className="h-3.5 w-3.5 text-violet-400" />
                           ) : (
-                            <ArrowDown className="h-3.5 w-3.5 text-indigo-600 dark:text-indigo-400" />
+                            <ArrowDown className="h-3.5 w-3.5 text-violet-400" />
                           )
                         ) : (
-                          <ArrowUpDown className="h-3.5 w-3.5 text-slate-400 opacity-60" />
+                          <ArrowUpDown className="h-3.5 w-3.5 text-slate-500 opacity-60" />
                         )}
                       </button>
                     ) : (
@@ -169,7 +169,7 @@ export function DataTable<T extends { id?: string | number }>({
               })}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+          <tbody className="divide-y divide-white/[0.03]">
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i}>
@@ -182,7 +182,7 @@ export function DataTable<T extends { id?: string | number }>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-4 py-8 text-center text-slate-500 dark:text-slate-400 text-sm"
+                  className="px-4 py-8 text-center text-slate-400 text-sm"
                 >
                   {emptyMessage}
                 </td>
@@ -195,7 +195,7 @@ export function DataTable<T extends { id?: string | number }>({
                     key={rowKey}
                     onClick={() => onRowClick?.(item)}
                     className={cn(
-                      'hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors',
+                      'hover:bg-[#252736]/50 transition-colors',
                       onRowClick && 'cursor-pointer'
                     )}
                   >
@@ -207,7 +207,7 @@ export function DataTable<T extends { id?: string | number }>({
                         <td
                           key={col.key}
                           className={cn(
-                            'px-4 py-3 text-slate-800 dark:text-slate-200 text-sm align-middle',
+                            'px-4 py-3.5 text-slate-200 text-sm align-middle',
                             col.align === 'center'
                               ? 'text-center'
                               : col.align === 'right'
@@ -230,7 +230,7 @@ export function DataTable<T extends { id?: string | number }>({
       {/* Pagination Bar */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between px-2 py-1">
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-400">
             Page {currentPage} of {totalPages}
           </p>
 
@@ -239,7 +239,7 @@ export function DataTable<T extends { id?: string | number }>({
               type="button"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-white/5 text-slate-300 hover:bg-[#282730] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               aria-label="Previous page"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -249,7 +249,7 @@ export function DataTable<T extends { id?: string | number }>({
               type="button"
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              className="p-1.5 rounded-lg border border-white/5 text-slate-300 hover:bg-[#282730] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               aria-label="Next page"
             >
               <ChevronRight className="h-4 w-4" />

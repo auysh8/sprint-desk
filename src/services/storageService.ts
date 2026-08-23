@@ -12,7 +12,6 @@ const STORAGE_KEYS = {
   REMEMBER_ME: 'sprintdesk_remember_me',
   BOARD_STATE: 'sprintdesk_board_state',
   NOTIFICATIONS: 'sprintdesk_notifications',
-  THEME: 'sprintdesk_theme',
 } as const;
 
 type StorageKey = keyof typeof STORAGE_KEYS;
@@ -95,14 +94,6 @@ class StorageService {
 
   setRememberMe(remember: boolean): boolean {
     return this.setItem<boolean>(STORAGE_KEYS.REMEMBER_ME, remember);
-  }
-
-  getTheme(): 'light' | 'dark' | null {
-    return this.getItem<'light' | 'dark'>(STORAGE_KEYS.THEME);
-  }
-
-  setTheme(theme: 'light' | 'dark'): boolean {
-    return this.setItem<'light' | 'dark'>(STORAGE_KEYS.THEME, theme);
   }
 }
 

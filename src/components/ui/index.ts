@@ -8,3 +8,4 @@ export * from './Drawer';
 export * from './Toast/ToastContext';
 export * from './Toast/ToastItem';
 export * from './DataTable';
+export * from './BrandLogo';

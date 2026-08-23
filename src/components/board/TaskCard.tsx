@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Clock, MessageSquare, GripVertical, AlertTriangle } from 'lucide-react';
+import { Bookmark, Clock, MessageSquare, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import type { Task, User } from '../../types/board';
-import { Badge } from '../ui/Badge';
 import { cn } from '../../utils/cn';
 
 export interface TaskCardProps {
@@ -14,7 +13,25 @@ export interface TaskCardProps {
   isOverlay?: boolean;
 }
 
-export const TaskCard: React.FC<TaskCardProps> = ({
+const priorityConfig: Record<
+  Task['priority'],
+  { label: string; className: string }
+> = {
+  high: {
+    label: 'HIGH',
+    className: 'bg-rose-500/20 text-rose-300',
+  },
+  medium: {
+    label: 'MEDIUM',
+    className: 'bg-amber-500/20 text-amber-300',
+  },
+  low: {
+    label: 'LOW',
+    className: 'bg-blue-500/20 text-blue-300',
+  },
+};
+
+const TaskCardComponent: React.FC<TaskCardProps> = ({
   task,
   assignee,
   commentsCount = 0,
@@ -42,20 +59,11 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     transition,
   };
 
-  const getPriorityVariant = (priority: Task['priority']) => {
-    switch (priority) {
-      case 'high':
-        return 'danger';
-      case 'medium':
-        return 'warning';
-      case 'low':
-        return 'info';
-      default:
-        return 'default';
+  const formatDueDate = (dateString: string, status: Task['status']) => {
+    if (status === 'done') {
+      return { text: 'Completed', isOverdue: false, isDone: true };
     }
-  };
 
-  const formatDueDate = (dateString: string) => {
     try {
       const due = new Date(dateString);
       const now = new Date();
@@ -63,100 +71,104 @@ export const TaskCard: React.FC<TaskCardProps> = ({
       const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
       if (diffDays < 0) {
-        return { text: `${Math.abs(diffDays)}d overdue`, isOverdue: true };
+        return { text: `${Math.abs(diffDays)}d overdue`, isOverdue: true, isDone: false };
       }
       if (diffDays === 0) {
-        return { text: 'Due today', isOverdue: false };
+        return { text: 'Due today', isOverdue: false, isDone: false };
       }
-      return { text: `${diffDays}d left`, isOverdue: false };
+      return { text: `${diffDays}d left`, isOverdue: false, isDone: false };
     } catch {
-      return { text: dateString, isOverdue: false };
+      return { text: dateString, isOverdue: false, isDone: false };
     }
   };
 
-  const dueInfo = formatDueDate(task.dueDate);
+  const dueInfo = formatDueDate(task.dueDate, task.status);
+  const pConf = priorityConfig[task.priority] || priorityConfig.low;
 
   return (
     <div
       ref={setNodeRef}
       style={style}
+      {...attributes}
+      {...listeners}
       onClick={onClick}
       className={cn(
-        'card-surface rounded-2xl p-4 transition-all duration-150 group cursor-pointer select-none space-y-3 relative',
-        isDragging && 'opacity-30 border-purple-500/50',
-        isOverlay && 'shadow-2xl shadow-purple-950/80 border-purple-500/80 rotate-2 scale-105 z-50 bg-[#151822]'
+        'bg-[#1a1b26] hover:bg-[#222433] rounded-xl p-4 transition-all duration-150 group cursor-grab active:cursor-grabbing select-none space-y-3 relative shadow-md shadow-black/30 hover:shadow-lg hover:shadow-black/50',
+        isDragging && 'opacity-30',
+        isOverlay && 'shadow-2xl shadow-black/90 rotate-1 scale-[1.02] z-50 bg-[#2b2d3c] cursor-grabbing'
       )}
     >
-      {/* Top Row: Drag Handle, Due Date & Comment Counter */}
-      <div className="flex items-center justify-between text-xs text-slate-400">
-        <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            {...attributes}
-            {...listeners}
-            className="text-slate-600 hover:text-slate-300 transition-colors p-0.5 rounded cursor-grab active:cursor-grabbing"
-            aria-label="Drag task"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <GripVertical className="h-3.5 w-3.5" />
-          </button>
+      {/* Row 1: Flush Task Title (Larger & Clearer) */}
+      <h4 className="font-semibold text-sm text-white line-clamp-2 leading-snug group-hover:text-violet-300 transition-colors">
+        {task.title}
+      </h4>
 
-          <span
-            className={cn(
-              'inline-flex items-center gap-1 text-[11px] font-medium',
-              dueInfo.isOverdue ? 'text-rose-400 font-semibold' : 'text-slate-400'
-            )}
-          >
-            {dueInfo.isOverdue ? (
-              <AlertTriangle className="h-3 w-3 text-rose-400" />
-            ) : (
-              <Clock className="h-3 w-3 text-slate-500" />
-            )}
-            {dueInfo.text}
+      {/* Row 2: Tag / Priority Chip + Snippet */}
+      <div className="flex items-center gap-2 flex-wrap">
+        <span
+          className={cn(
+            'inline-flex items-center text-xs font-bold tracking-wider px-2.5 py-0.5 rounded-md shrink-0',
+            pConf.className
+          )}
+        >
+          {pConf.label}
+        </span>
+        {task.description && (
+          <span className="text-xs text-slate-300 truncate max-w-[200px]">
+            {task.description}
           </span>
-        </div>
-
-        {commentsCount > 0 && (
-          <div className="flex items-center gap-1 text-slate-400 text-xs">
-            <MessageSquare className="h-3.5 w-3.5 text-slate-500" />
-            <span>{commentsCount}</span>
-          </div>
         )}
       </div>
 
-      {/* Task Title */}
-      <h3 className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors leading-snug line-clamp-2">
-        {task.title}
-      </h3>
+      {/* Row 3: Clean Minimalist Footer */}
+      <div className="flex items-center justify-between pt-1">
+        {/* Left: Task ID & Due / Comments */}
+        <div className="flex items-center gap-2.5 text-xs text-slate-300">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+            <Bookmark className="h-4 w-4 text-emerald-400 fill-emerald-400/20 shrink-0" />
+            SD-{task.id}
+          </span>
 
-      {/* Description Snippet */}
-      {task.description && (
-        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-          {task.description}
-        </p>
-      )}
-
-      {/* Bottom Row: Priority Badge & Assignee Avatar */}
-      <div className="flex items-center justify-between pt-1 border-t border-white/5">
-        <Badge variant={getPriorityVariant(task.priority)} size="sm">
-          {task.priority.toUpperCase()}
-        </Badge>
-
-        {assignee ? (
-          <div className="flex items-center gap-1.5" title={assignee.name}>
-            <img
-              src={assignee.avatar}
-              alt={assignee.name}
-              className="h-6 w-6 rounded-full object-cover ring-1 ring-white/10"
-            />
-            <span className="text-[11px] text-slate-400 hidden sm:inline max-w-[80px] truncate">
-              {assignee.name.split(' ')[0]}
+          {dueInfo.isOverdue ? (
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-rose-400">
+              <AlertTriangle className="h-3.5 w-3.5" />
+              {dueInfo.text}
             </span>
-          </div>
+          ) : dueInfo.isDone ? (
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-400">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              {dueInfo.text}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-normal">
+              <Clock className="h-3.5 w-3.5" />
+              {dueInfo.text}
+            </span>
+          )}
+
+          {commentsCount > 0 && (
+            <span className="inline-flex items-center gap-1 text-xs text-slate-300 font-medium">
+              <MessageSquare className="h-3.5 w-3.5 text-slate-400" />
+              {commentsCount}
+            </span>
+          )}
+        </div>
+
+        {/* Right: Assignee Avatar */}
+        {assignee ? (
+          <img
+            src={assignee.avatar}
+            alt={assignee.name}
+            title={assignee.name}
+            className="h-7 w-7 rounded-full object-cover ring-1 ring-white/15 shrink-0"
+          />
         ) : (
-          <span className="text-[11px] text-slate-500 italic">Unassigned</span>
+          <span className="text-xs text-slate-400 italic">Unassigned</span>
         )}
       </div>
     </div>
   );
 };
+
+export const TaskCard = React.memo(TaskCardComponent);
+

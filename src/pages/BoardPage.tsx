@@ -35,29 +35,13 @@ export const BoardPage: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Board Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold tracking-tight text-white">
-              Sprint 34 Kanban
-            </h1>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              Active
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Drag and drop tasks between columns. Changes persist automatically.
-          </p>
-        </div>
-
-        {/* Sprint Summary Pill */}
-        <div className="flex items-center gap-3 text-xs text-slate-400">
-          <span className="font-medium text-white">{tasks.length} total tasks</span>
-          <span>•</span>
-          <span className="text-emerald-400 font-medium">
-            {tasks.filter((t) => t.status === 'done').length} completed
-          </span>
-        </div>
+      <div className="flex items-center gap-2.5">
+        <h1 className="text-2xl font-bold tracking-tight text-white">
+          Sprint Board
+        </h1>
+        <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">
+          Active
+        </span>
       </div>
 
       {/* Search & Filter Bar */}
@@ -67,7 +51,7 @@ export const BoardPage: React.FC = () => {
       {isLoading && tasks.length === 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="p-4 rounded-2xl bg-[#0e1017] border border-[#1a1d26] space-y-3">
+            <div key={i} className="p-4 rounded-2xl bg-[#181920]/90 border border-white/[0.06] space-y-3">
               <Skeleton variant="text" width="60%" height={20} />
               <Skeleton variant="card" height={100} />
               <Skeleton variant="card" height={100} />

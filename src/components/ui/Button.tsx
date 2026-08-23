@@ -15,15 +15,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white shadow-sm focus-visible:ring-indigo-500 disabled:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 dark:disabled:bg-indigo-800/60',
+    'bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white shadow-md shadow-violet-950/40 focus-visible:ring-violet-500 disabled:bg-violet-800/60 dark:bg-violet-600 dark:hover:bg-violet-500 dark:disabled:bg-violet-800/60',
   secondary:
-    'bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-900 focus-visible:ring-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600 dark:text-slate-100',
+    'bg-[#252736] hover:bg-[#2d3042] active:bg-[#35384e] text-slate-100 focus-visible:ring-slate-400',
   outline:
-    'border border-slate-300 hover:bg-slate-100 active:bg-slate-200 text-slate-700 focus-visible:ring-slate-400 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-slate-200',
+    'hover:bg-white/5 active:bg-white/10 text-slate-200 focus-visible:ring-slate-400',
   danger:
-    'bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white shadow-sm focus-visible:ring-rose-500 disabled:bg-rose-400 dark:bg-rose-600 dark:hover:bg-rose-700',
+    'bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white shadow-sm focus-visible:ring-rose-500 disabled:bg-rose-400 dark:bg-rose-600 dark:hover:bg-rose-500',
   ghost:
-    'hover:bg-slate-100 active:bg-slate-200 text-slate-700 focus-visible:ring-slate-400 dark:hover:bg-slate-800 dark:text-slate-300',
+    'hover:bg-white/5 active:bg-white/10 text-slate-300 focus-visible:ring-slate-400',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {

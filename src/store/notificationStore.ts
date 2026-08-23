@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { NotificationItem } from '../types/notification';
 import { mockDataService } from '../services/mockDataService';
+import { notificationService } from '../services/notificationService';
 
 interface NotificationState {
   notifications: NotificationItem[];
@@ -26,7 +27,23 @@ export const useNotificationStore = create<NotificationState>()(
 
       loadInitialNotifications: async () => {
         const state = get();
-        if (state.notifications.length > 0) return;
+        if (state.notifications.length > 0) {
+          // Automatically sanitize any existing cached items with Latin placeholder text
+          const sanitized = state.notifications.map((n) => {
+            if (n.sourcePostId) {
+              const fresh = notificationService.transformPostToNotification({
+                id: n.sourcePostId,
+                title: '',
+                body: '',
+                userId: 1,
+              });
+              return { ...n, title: fresh.title, message: fresh.message };
+            }
+            return n;
+          });
+          set({ notifications: sanitized });
+          return;
+        }
 
         try {
           const initial = await mockDataService.getInitialNotifications();

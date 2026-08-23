@@ -16,27 +16,27 @@ export const PasswordStrengthMeter: React.FC<PasswordStrengthMeterProps> = ({
   const { score, label, color, feedback } = calculatePasswordStrength(password);
 
   return (
-    <div className="w-full flex flex-col gap-1.5 mt-1.5">
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-500 dark:text-slate-400">Password strength:</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-200">{label}</span>
+    <div className="w-full flex flex-col gap-2 mt-2.5">
+      <div className="flex items-center justify-between text-xs font-semibold">
+        <span className="text-slate-300">Password strength:</span>
+        <span className="text-slate-100 font-bold">{label}</span>
       </div>
 
       {/* 4-segment indicator bar */}
-      <div className="grid grid-cols-4 gap-1.5 h-1.5 w-full">
+      <div className="grid grid-cols-4 gap-2 h-2 w-full">
         {Array.from({ length: 4 }).map((_, index) => (
           <div
             key={index}
             className={cn(
               'h-full rounded-full transition-all duration-300',
-              index < score ? color : 'bg-slate-200 dark:bg-slate-800'
+              index < score ? color : 'bg-[#2d3148]'
             )}
           />
         ))}
       </div>
 
       {showFeedback && feedback.length > 0 && (
-        <ul className="text-[11px] text-slate-500 dark:text-slate-400 list-disc list-inside mt-0.5 space-y-0.5">
+        <ul className="text-xs text-slate-300 list-disc list-inside mt-1 space-y-1">
           {feedback.map((item, idx) => (
             <li key={idx}>{item}</li>
           ))}

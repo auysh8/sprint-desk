@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
-import { Sparkles } from 'lucide-react';
+import { BrandLogo } from '../ui/BrandLogo';
 
 export const ProtectedRoute: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -9,14 +9,14 @@ export const ProtectedRoute: React.FC<{ children?: React.ReactNode }> = ({ child
 
   if (isLoading) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-        <div className="flex flex-col items-center gap-4 animate-pulse">
-          <div className="h-14 w-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-            <Sparkles className="h-7 w-7 animate-spin" />
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-[#0e0f14] text-white selection:bg-violet-500/30">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-pulse">
+            <BrandLogo size="lg" showText={false} />
           </div>
-          <div className="text-center">
-            <h1 className="text-xl font-bold tracking-tight">SprintDesk</h1>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <div className="text-center space-y-1">
+            <h1 className="text-xl font-bold tracking-tight text-white">SprintDesk</h1>
+            <p className="text-xs text-slate-400">
               Restoring your active session...
             </p>
           </div>

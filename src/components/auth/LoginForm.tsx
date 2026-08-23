@@ -50,77 +50,87 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl">
+    <div className="w-full max-w-[490px] p-8 sm:p-11 bg-[#181926] rounded-3xl shadow-2xl shadow-black/90 space-y-7 relative z-10">
       {/* Header */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-indigo-600/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 mb-3">
-          <Sparkles className="h-6 w-6" />
+      <div className="text-center space-y-2.5">
+        <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-tr from-violet-600/30 to-purple-600/20 text-violet-300 mb-1 shadow-inner">
+          <Sparkles className="h-7 w-7" />
         </div>
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+        <h2 className="text-3xl font-extrabold tracking-tight text-white">
           Sign in to SprintDesk
         </h2>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-sm text-slate-300 font-medium">
           Streamlined agile project and sprint management
         </p>
       </div>
 
       {/* Global Error Banner */}
       {error && (
-        <div className="mb-6 p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 flex items-start gap-2.5 text-rose-700 dark:text-rose-300 text-xs animate-in fade-in">
-          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+        <div className="p-3.5 rounded-2xl bg-rose-500/20 flex items-start gap-3 text-rose-200 text-xs font-medium shadow-sm animate-in fade-in">
+          <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-rose-300" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Demo Credentials Helper */}
-      <div className="mb-6 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
-        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
+      <div className="p-4.5 rounded-2xl bg-[#222436] shadow-sm space-y-3">
+        <span className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
           Demo Accounts (Click to fill)
         </span>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2.5">
           <button
             type="button"
             onClick={() => fillDemoUser('emilys', 'emilyspass')}
-            className="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-indigo-500 hover:text-indigo-600 transition-colors font-medium cursor-pointer"
+            className="text-xs px-3.5 py-2 rounded-xl bg-[#2d3148] hover:bg-[#383d5a] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
           >
-            👤 Emily (Lead)
+            <span className="h-2 w-2 rounded-full bg-emerald-400 shrink-0" />
+            <span>Emily (Lead)</span>
           </button>
           <button
             type="button"
             onClick={() => fillDemoUser('michaelw', 'michaelwpass')}
-            className="text-xs px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-indigo-500 hover:text-indigo-600 transition-colors font-medium cursor-pointer"
+            className="text-xs px-3.5 py-2 rounded-xl bg-[#2d3148] hover:bg-[#383d5a] text-white transition-all font-semibold cursor-pointer shadow-xs active:scale-95 flex items-center gap-2"
           >
-            👤 Michael (Dev)
+            <span className="h-2 w-2 rounded-full bg-sky-400 shrink-0" />
+            <span>Michael (Dev)</span>
           </button>
         </div>
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          label="Username"
-          placeholder="e.g. emilys"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          error={validationErrors.username}
-          leftIcon={<User className="h-4 w-4" />}
-          disabled={isLoading}
-          autoComplete="username"
-          required
-        />
-
-        <div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
+            Username <span className="text-rose-400 font-bold">*</span>
+          </label>
           <Input
-            label="Password"
+            placeholder="e.g. emilys"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            error={validationErrors.username}
+            leftIcon={<User className="h-4 w-4 text-slate-400" />}
+            disabled={isLoading}
+            autoComplete="username"
+            required
+            className="h-12 bg-[#222436] focus:bg-[#282b40] text-white placeholder:text-slate-400 text-sm font-medium rounded-xl focus:ring-2 focus:ring-violet-400 shadow-sm"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
+            Password <span className="text-rose-400 font-bold">*</span>
+          </label>
+          <Input
             type="password"
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             error={validationErrors.password}
-            leftIcon={<Lock className="h-4 w-4" />}
+            leftIcon={<Lock className="h-4 w-4 text-slate-400" />}
             disabled={isLoading}
             autoComplete="current-password"
             required
+            className="h-12 bg-[#222436] focus:bg-[#282b40] text-white placeholder:text-slate-400 text-sm font-medium rounded-xl focus:ring-2 focus:ring-violet-400 shadow-sm"
           />
           {/* Password Strength Meter */}
           <PasswordStrengthMeter password={password} />
@@ -128,14 +138,14 @@ export const LoginForm: React.FC = () => {
 
         {/* Remember Me Option */}
         <div className="flex items-center justify-between pt-1">
-          <label className="flex items-center gap-2 cursor-pointer select-none">
+          <label className="flex items-center gap-2.5 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 cursor-pointer"
+              className="h-4.5 w-4.5 rounded accent-violet-500 text-violet-600 bg-[#222436] focus:ring-violet-500 cursor-pointer"
             />
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+            <span className="text-sm font-medium text-slate-200">
               Remember me (30-day session)
             </span>
           </label>
@@ -146,7 +156,7 @@ export const LoginForm: React.FC = () => {
           variant="primary"
           size="lg"
           isLoading={isLoading}
-          className="w-full mt-2"
+          className="w-full mt-2 h-12 text-base font-bold bg-violet-600 hover:bg-violet-500 active:bg-violet-700 text-white rounded-xl shadow-xl shadow-violet-950/70 transition-all"
         >
           Sign In to Dashboard
         </Button>

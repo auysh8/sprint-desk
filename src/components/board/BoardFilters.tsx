@@ -43,7 +43,7 @@ export const BoardFilters: React.FC<BoardFiltersProps> = ({ onNewTaskClick }) =>
             leftIcon={<Search className="h-4 w-4" />}
             clearable
             onClear={() => setFilters({ searchQuery: '' })}
-            className="h-9 bg-[#13151c] border-white/5"
+            className="h-9 bg-[#1d1e2a] text-white placeholder:text-slate-500 shadow-xs"
           />
         </div>
 
@@ -55,7 +55,7 @@ export const BoardFilters: React.FC<BoardFiltersProps> = ({ onNewTaskClick }) =>
             onChange={(e) =>
               setFilters({ priority: e.target.value as TaskPriority | 'all' })
             }
-            className="h-9 bg-[#13151c] border-white/5 text-xs"
+            className="h-9 bg-[#1d1e2a] text-xs text-white shadow-xs"
           />
         </div>
 
@@ -68,7 +68,7 @@ export const BoardFilters: React.FC<BoardFiltersProps> = ({ onNewTaskClick }) =>
               const val = e.target.value;
               setFilters({ assigneeId: val === 'all' ? 'all' : Number(val) });
             }}
-            className="h-9 bg-[#13151c] border-white/5 text-xs"
+            className="h-9 bg-[#1d1e2a] text-xs text-white shadow-xs"
           />
         </div>
 
@@ -77,7 +77,7 @@ export const BoardFilters: React.FC<BoardFiltersProps> = ({ onNewTaskClick }) =>
           <button
             type="button"
             onClick={resetFilters}
-            className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-white px-2 py-1 rounded-lg bg-[#1a1d26] border border-white/5 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white px-2.5 py-1.5 rounded-lg bg-[#252736] shadow-xs hover:bg-[#2e3144] transition-colors cursor-pointer"
           >
             <RotateCcw className="h-3 w-3" />
             <span>Reset</span>
@@ -92,7 +92,7 @@ export const BoardFilters: React.FC<BoardFiltersProps> = ({ onNewTaskClick }) =>
           size="sm"
           onClick={() => onNewTaskClick()}
           leftIcon={<Plus className="h-4 w-4" />}
-          className="bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-950/50"
+          className="bg-violet-600 hover:bg-violet-500 shadow-md shadow-violet-950/40 text-white font-medium"
         >
           New Task
         </Button>

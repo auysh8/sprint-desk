@@ -18,31 +18,31 @@ export interface KanbanColumnProps {
 
 const columnStatusStyles: Record<
   TaskStatus,
-  { dot: string; border: string; badge: string; text: string }
+  {
+    bg: string;
+    badge: string;
+    text: string;
+  }
 > = {
   backlog: {
-    dot: 'bg-slate-400',
-    border: 'border-slate-800',
-    badge: 'bg-slate-800 text-slate-300',
-    text: 'text-slate-300',
+    bg: 'bg-[#22151f]',
+    badge: 'bg-pink-500/20 text-pink-300',
+    text: 'text-pink-200',
   },
   'in-progress': {
-    dot: 'bg-amber-400',
-    border: 'border-amber-500/20',
-    badge: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-    text: 'text-amber-300',
+    bg: 'bg-[#251b12]',
+    badge: 'bg-amber-500/20 text-amber-300',
+    text: 'text-amber-200',
   },
   review: {
-    dot: 'bg-purple-400',
-    border: 'border-purple-500/20',
-    badge: 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
-    text: 'text-purple-300',
+    bg: 'bg-[#111f2c]',
+    badge: 'bg-sky-500/20 text-sky-300',
+    text: 'text-sky-200',
   },
   done: {
-    dot: 'bg-emerald-400',
-    border: 'border-emerald-500/20',
-    badge: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-    text: 'text-emerald-300',
+    bg: 'bg-[#1c142b]',
+    badge: 'bg-purple-500/20 text-purple-300',
+    text: 'text-purple-200',
   },
 };
 
@@ -70,18 +70,18 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
     <div
       ref={setNodeRef}
       className={cn(
-        'flex flex-col flex-1 min-w-[280px] sm:min-w-[310px] max-w-[360px] rounded-2xl bg-[#0e1017] border border-[#1a1d26] p-3.5 transition-colors',
-        isOver && 'border-purple-500/50 bg-[#121520]'
+        'flex flex-col flex-1 min-w-[260px] w-full rounded-2xl p-4 transition-all duration-200 shadow-md shadow-black/40 backdrop-blur-xs',
+        statusStyle.bg,
+        isOver && 'brightness-125 shadow-xl shadow-black/70 scale-[1.01]'
       )}
     >
       {/* Column Header */}
-      <div className="flex items-center justify-between pb-3 px-1 border-b border-white/5 mb-3">
+      <div className="flex items-center justify-between pb-2 px-1 mb-2">
         <div className="flex items-center gap-2">
-          <span className={cn('h-2 w-2 rounded-full', statusStyle.dot)} />
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200">
+          <h3 className={cn('text-xs font-bold uppercase tracking-wider', statusStyle.text)}>
             {title}
           </h3>
-          <span className={cn('text-[11px] font-semibold px-2 py-0.5 rounded-full', statusStyle.badge)}>
+          <span className={cn('text-xs font-semibold px-2 py-0.5 rounded-full', statusStyle.badge)}>
             {tasks.length}
           </span>
         </div>
@@ -89,15 +89,15 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         <button
           type="button"
           onClick={() => onAddTaskClick(id)}
-          className="p-1 rounded-lg text-slate-500 hover:text-slate-200 hover:bg-[#191c28] transition-colors cursor-pointer"
+          className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           aria-label={`Add task to ${title}`}
         >
           <Plus className="h-4 w-4" />
         </button>
       </div>
 
-      {/* Task Cards Container */}
-      <div className="flex-1 overflow-y-auto space-y-3 min-h-[300px] pr-0.5">
+      {/* Task Cards Container (Scrollbar hidden for clean visual aesthetic) */}
+      <div className="flex-1 overflow-y-auto no-scrollbar space-y-2.5 max-h-[calc(100vh-270px)] min-h-[300px]">
         <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
           {tasks.map((task) => {
             const assignee = users.find((u) => u.id === task.assigneeId);
@@ -116,7 +116,7 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
         </SortableContext>
 
         {tasks.length === 0 && (
-          <div className="h-28 border border-dashed border-white/5 rounded-xl flex items-center justify-center text-xs text-slate-600">
+          <div className="h-28 border-2 border-dashed border-violet-500/20 rounded-xl flex items-center justify-center text-xs text-slate-500 bg-violet-500/5">
             Drop tasks here
           </div>
         )}
@@ -124,3 +124,4 @@ export const KanbanColumn: React.FC<KanbanColumnProps> = ({
     </div>
   );
 };
+

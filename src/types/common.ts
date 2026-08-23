@@ -16,8 +16,6 @@ export interface ToastItem {
   action?: ToastAction;
 }
 
-export type ThemeMode = 'light' | 'dark' | 'system';
-
 export interface TableColumn<T> {
   key: string;
   header: string;

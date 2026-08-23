@@ -17,7 +17,7 @@ export interface CompletionTrendChartProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl border border-white/10 bg-[#12141c] p-3 shadow-xl text-xs space-y-1">
+      <div className="rounded-xl bg-[#252736] p-3 shadow-2xl shadow-black/80 text-xs space-y-1">
         <p className="font-bold text-white mb-1">{label}</p>
         <p className="text-purple-400">
           Cumulative Completed: <span className="font-semibold text-white">{payload[0]?.value} tasks</span>
@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data }) => {
   return (
-    <div className="card-surface p-5 rounded-2xl flex flex-col space-y-4">
+    <div className="bg-[#15161f] p-5 rounded-2xl flex flex-col space-y-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-sm font-semibold text-white">Completion Velocity Trend</h3>
@@ -40,7 +40,7 @@ export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data
 
       <div className="w-full h-64 sm:h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
             <defs>
               <linearGradient id="purpleGrad" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#a855f7" stopOpacity={0.4} />
@@ -61,7 +61,11 @@ export const CompletionTrendChart: React.FC<CompletionTrendChartProps> = ({ data
               tickLine={false}
               axisLine={{ stroke: '#232733' }}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip
+              content={<CustomTooltip />}
+              animationDuration={200}
+              cursor={{ stroke: 'rgba(255, 255, 255, 0.1)', strokeWidth: 1, strokeDasharray: '3 3' }}
+            />
             <Area
               type="monotone"
               dataKey="cumulativeCompleted"

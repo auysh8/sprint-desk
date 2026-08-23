@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import {
   Download,
   TrendingUp,
@@ -18,7 +19,6 @@ import { SprintVelocityChart } from '../components/analytics/SprintVelocityChart
 import { StatusDistributionChart } from '../components/analytics/StatusDistributionChart';
 import { PriorityMatrixChart } from '../components/analytics/PriorityMatrixChart';
 import { CompletionTrendChart } from '../components/analytics/CompletionTrendChart';
-import { Button } from '../components/ui/Button';
 import { useToast } from '../components/ui/Toast/ToastContext';
 import { cn } from '../utils/cn';
 
@@ -70,114 +70,123 @@ export const AnalyticsPage: React.FC = () => {
     <div className="space-y-6 max-w-[1400px] mx-auto text-slate-200">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl font-bold tracking-tight text-white">
-              Sprint Analytics & Metrics
-            </h1>
-            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-              Live Data
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Real-time performance, completion velocity, and priority allocation metrics.
-          </p>
+        <div className="flex items-center gap-2.5">
+          <h1 className="text-2xl font-bold tracking-tight text-white">
+            Sprint Analytics & Metrics
+          </h1>
+          <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20">
+            Live Data
+          </span>
         </div>
 
-        {/* Action Controls: Date Range & Export */}
+        {/* Action Controls: Date Range with Animated Sliding Pill & M3 Tonal Export */}
         <div className="flex items-center gap-2.5">
-          {/* Date Range Selector */}
-          <div className="flex items-center bg-[#13151c] p-1 rounded-xl border border-white/5">
-            {rangeOptions.map((opt) => (
-              <button
-                key={opt.days}
-                type="button"
-                onClick={() => setSelectedRangeDays(opt.days)}
-                className={cn(
-                  'px-3 py-1 text-xs font-medium rounded-lg transition-colors cursor-pointer',
-                  selectedRangeDays === opt.days
-                    ? 'bg-[#222533] text-white font-semibold shadow-xs'
-                    : 'text-slate-400 hover:text-slate-200'
-                )}
-              >
-                {opt.label}
-              </button>
-            ))}
+          {/* Date Range Selector with Sliding Pill */}
+          <div className="flex items-center bg-[#15161f] p-1 rounded-full shadow-xs">
+            {rangeOptions.map((opt) => {
+              const isSelected = selectedRangeDays === opt.days;
+              return (
+                <button
+                  key={opt.days}
+                  type="button"
+                  onClick={() => setSelectedRangeDays(opt.days)}
+                  className={cn(
+                    'relative px-3.5 py-1 text-xs font-medium rounded-full transition-colors cursor-pointer',
+                    isSelected
+                      ? 'text-white font-semibold'
+                      : 'text-slate-400 hover:text-slate-200'
+                  )}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="analytics-range-pill"
+                      className="absolute inset-0 bg-[#252736] rounded-full shadow-xs"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{opt.label}</span>
+                </button>
+              );
+            })}
           </div>
 
-          <Button
-            variant="outline"
-            size="sm"
+          {/* M3 Tonal Export Button */}
+          <button
+            type="button"
             onClick={handleExportData}
-            leftIcon={<Download className="h-4 w-4" />}
-            className="border-white/10 hover:bg-[#1a1d28] text-slate-300"
+            className="bg-[#1d1e2a] hover:bg-[#252736] text-slate-200 text-xs font-medium px-3.5 py-2 rounded-xl transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
           >
-            Export Report
-          </Button>
+            <Download className="h-4 w-4 text-slate-300" />
+            <span>Export Report</span>
+          </button>
         </div>
       </div>
 
-      {/* 4 Summary Metric Cards */}
+      {/* 4 Summary Metric Cards — Colorful Dark Tonal Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="card-surface p-5 rounded-2xl flex flex-col justify-between">
+        {/* Card 1: Sprint Velocity (Violet) */}
+        <div className="bg-[#201830] p-5 rounded-2xl flex flex-col justify-between shadow-md shadow-black/30 transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-medium">Sprint Velocity</span>
-            <div className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400">
+            <span className="text-xs text-violet-300 font-bold uppercase tracking-wider">Sprint Velocity</span>
+            <div className="p-1.5 rounded-lg bg-violet-500/20 text-violet-300">
               <Zap className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-extrabold text-white">
+            <span className="text-3xl font-extrabold text-violet-100">
               {metrics.estimatedVelocityPoints}
             </span>
-            <span className="text-xs text-purple-400 block mt-0.5">Story Points</span>
+            <span className="text-xs text-violet-300/80 block mt-0.5 font-medium">Story Points</span>
           </div>
         </div>
 
-        <div className="card-surface p-5 rounded-2xl flex flex-col justify-between">
+        {/* Card 2: Completion Rate (Emerald) */}
+        <div className="bg-[#12221b] p-5 rounded-2xl flex flex-col justify-between shadow-md shadow-black/30 transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-medium">Completion Rate</span>
-            <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
+            <span className="text-xs text-emerald-300 font-bold uppercase tracking-wider">Completion Rate</span>
+            <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-300">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-extrabold text-emerald-400">
+            <span className="text-3xl font-extrabold text-emerald-200">
               {metrics.completionRate}%
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
+            <span className="text-xs text-emerald-400 block mt-0.5 font-semibold">
               {metrics.completedTasks} of {metrics.totalTasks} tasks done
             </span>
           </div>
         </div>
 
-        <div className="card-surface p-5 rounded-2xl flex flex-col justify-between">
+        {/* Card 3: In Progress / Review (Amber) */}
+        <div className="bg-[#241c14] p-5 rounded-2xl flex flex-col justify-between shadow-md shadow-black/30 transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-medium">In Progress / Review</span>
-            <div className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400">
+            <span className="text-xs text-amber-300 font-bold uppercase tracking-wider">In Progress / Review</span>
+            <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-300">
               <CheckCircle2 className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-extrabold text-amber-400">
+            <span className="text-3xl font-extrabold text-amber-200">
               {metrics.inProgressTasks + metrics.reviewTasks}
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">Active in sprint workflow</span>
+            <span className="text-xs text-amber-300/80 block mt-0.5 font-medium">Active in sprint workflow</span>
           </div>
         </div>
 
-        <div className="card-surface p-5 rounded-2xl flex flex-col justify-between">
+        {/* Card 4: Overdue Tasks (Rose) */}
+        <div className="bg-[#28151c] p-5 rounded-2xl flex flex-col justify-between shadow-md shadow-black/30 transition-colors">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-medium">Overdue Tasks</span>
-            <div className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400">
+            <span className="text-xs text-rose-300 font-bold uppercase tracking-wider">Overdue Tasks</span>
+            <div className="p-1.5 rounded-lg bg-rose-500/20 text-rose-300">
               <AlertTriangle className="h-4 w-4" />
             </div>
           </div>
           <div className="mt-3">
-            <span className="text-3xl font-extrabold text-rose-400">
+            <span className="text-3xl font-extrabold text-rose-200">
               {metrics.overdueTasks}
             </span>
-            <span className="text-xs text-slate-400 block mt-0.5">Requires immediate attention</span>
+            <span className="text-xs text-rose-300/80 block mt-0.5 font-medium">Requires immediate attention</span>
           </div>
         </div>
       </div>

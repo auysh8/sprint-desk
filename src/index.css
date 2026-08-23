@@ -1,28 +1,45 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    --color-bg-primary: #0a0b0e;
-    --color-bg-secondary: #101217;
-    --color-bg-tertiary: #161820;
-    --color-bg-card: #13151c;
-    --color-bg-card-hover: #181b24;
-    --color-border: #212530;
-    --color-border-subtle: #171922;
+    --color-bg-primary: #0e0f14;
+    --color-bg-secondary: #15161f;
+    --color-bg-card: #1d1e2a;
+    --color-border: transparent;
     --color-text-primary: #f8fafc;
     --color-text-secondary: #94a3b8;
     --color-text-muted: #64748b;
-    --color-accent: #a855f7;
-    --color-accent-hover: #9333ea;
-    --color-accent-subtle: rgba(168, 85, 247, 0.15);
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-danger: #ef4444;
+
+    /* Surface Elevation Scale */
+    --surface-0: #0e0f14;
+    --surface-1: #15161f;
+    --surface-2: #1d1e2a;
+    --surface-3: #252736;
+    --surface-4: #2d3042;
+    --surface-5: #36394f;
   }
 
-  /* Default dark scheme (Linear-inspired obsidian aesthetic) */
+  html {
+    font-size: 17px;
+    scrollbar-gutter: stable;
+  }
+
+  @media (min-width: 1280px) {
+    html {
+      font-size: 17.5px;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    html {
+      font-size: 18px;
+    }
+  }
+
   body {
-    background-color: #0b0c10;
+    background-color: #0e0f14;
     color: #f1f5f9;
     font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     min-height: 100vh;
@@ -32,7 +49,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Subtle sleek scrollbars */
+  /* Sleek scrollbars */
   ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
@@ -43,28 +60,47 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #232733;
+    background: #252736;
     border-radius: 9999px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #363c4e;
+    background: #36394f;
   }
 }
 
-/* Custom linear glass & glossy active utilities */
+/* Custom cards & active pill utilities */
 @layer utilities {
   .glow-active {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.16) 0%, rgba(139, 92, 246, 0.04) 100%);
+    box-shadow: 0 4px 16px -2px rgba(139, 92, 246, 0.25);
   }
 
+  /* Borderless Elevation Surfaces */
+  .surface-0 { background-color: #0e0f14; }
+  .surface-1 { background-color: #15161f; box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4); }
+  .surface-2 { background-color: #1d1e2a; box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.5); }
+  .surface-3 { background-color: #252736; box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.6); }
+  .surface-4 { background-color: #2d3042; box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.75); }
+
   .card-surface {
-    background-color: #12141a;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: #1d1e2a;
+    box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.45);
+    border: none;
   }
 
   .card-surface:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    background-color: #242635;
+    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.6);
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
 }
+

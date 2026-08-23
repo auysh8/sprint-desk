@@ -95,15 +95,15 @@ export const NotificationDropdown: React.FC = () => {
 
       {/* Popover Dropdown Panel */}
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl border border-white/10 bg-[#12141c] shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[#202230] shadow-2xl shadow-black/90 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3.5 border-b border-white/5 bg-[#161824]/60">
+          <div className="flex items-center justify-between px-4 py-3.5 bg-[#171822]/80">
             <div className="flex items-center gap-2">
               <h3 className="text-xs font-bold text-white uppercase tracking-wider">
                 Notifications
               </h3>
               {unreadCount > 0 && (
-                <span className="px-1.5 py-0.2 text-[10px] font-semibold rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-violet-500/25 text-violet-300">
                   {unreadCount} new
                 </span>
               )}
@@ -113,7 +113,7 @@ export const NotificationDropdown: React.FC = () => {
               <button
                 type="button"
                 onClick={markAllAsRead}
-                className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-purple-400 transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 text-[11px] text-slate-400 hover:text-violet-300 transition-colors cursor-pointer"
               >
                 <CheckCheck className="h-3.5 w-3.5" />
                 <span>Mark all read</span>
@@ -122,7 +122,7 @@ export const NotificationDropdown: React.FC = () => {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1 px-4 py-2 border-b border-white/5 bg-[#0f1118]">
+          <div className="flex items-center gap-1.5 px-4 py-2 bg-[#171822]/40">
             <button
               type="button"
               onClick={() => {
@@ -130,9 +130,9 @@ export const NotificationDropdown: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={cn(
-                'px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer',
+                'px-3 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer',
                 filter === 'all'
-                  ? 'bg-[#222533] text-white font-semibold'
+                  ? 'bg-[#2a2c3f] text-white font-semibold'
                   : 'text-slate-400 hover:text-slate-200'
               )}
             >
@@ -145,9 +145,9 @@ export const NotificationDropdown: React.FC = () => {
                 setCurrentPage(1);
               }}
               className={cn(
-                'px-2.5 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer',
+                'px-3 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer',
                 filter === 'unread'
-                  ? 'bg-[#222533] text-white font-semibold'
+                  ? 'bg-[#2a2c3f] text-white font-semibold'
                   : 'text-slate-400 hover:text-slate-200'
               )}
             >
@@ -156,7 +156,7 @@ export const NotificationDropdown: React.FC = () => {
           </div>
 
           {/* Notification List */}
-          <div className="divide-y divide-white/5 max-h-[340px] overflow-y-auto">
+          <div className="divide-y divide-white/[0.03] max-h-[340px] overflow-y-auto">
             {paginatedItems.length === 0 ? (
               <div className="py-12 px-4 text-center text-xs text-slate-500">
                 {filter === 'unread'
