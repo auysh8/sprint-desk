@@ -4,8 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
 import { GlobalSearchModal } from '../search/GlobalSearchModal';
+import { useNotifications } from '../../hooks/useNotifications';
 
 export const AppLayout: React.FC = () => {
+  // Activate tab-aware real-time notification polling & load initial items
+  useNotifications();
+
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [desktopCollapsed, setDesktopCollapsed] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);

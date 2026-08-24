@@ -10,8 +10,6 @@ build
 out
 
 # Environment variables & Local configurations
-.env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -42,7 +40,6 @@ coverage
 .Trashes
 ehthumbs.db
 Thumbs.db
-.vscode/*
 !.vscode/extensions.json
 .idea
 *.suo
@@ -61,3 +58,4 @@ CLAUDE.md
 .windsurfrules
 .agent
 mock-data.json
+config.bat
