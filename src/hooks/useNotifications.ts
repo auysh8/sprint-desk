@@ -76,6 +76,7 @@ export function useNotifications() {
 
     // Initial start
     if (document.visibilityState === 'visible') {
+      pollForUpdates();
       timerRef.current = setInterval(pollForUpdates, POLLING_INTERVAL_MS);
     }
 

@@ -32,7 +32,17 @@ export const NotificationDropdown: React.FC = () => {
     notifications,
     markAsRead,
     markAllAsRead,
+    loadInitialNotifications,
+    setIsDropdownOpen: setIsStoreDropdownOpen,
   } = useNotificationStore();
+
+  useEffect(() => {
+    loadInitialNotifications();
+  }, [loadInitialNotifications]);
+
+  useEffect(() => {
+    setIsStoreDropdownOpen(isDropdownOpen);
+  }, [isDropdownOpen, setIsStoreDropdownOpen]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
