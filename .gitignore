@@ -59,3 +59,7 @@ CLAUDE.md
 .agent
 mock-data.json
 config.bat
+
+# Security blocklist
+api.js
+*.orc
